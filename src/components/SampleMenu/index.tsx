@@ -59,13 +59,11 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 			className="page !grid grid-rows-12 grid-flow-col transition-all"
 			ref={ref}>
 			<div className="grid row-span-2">
-				<div>
-					<p
-						className="text-center text-2xl font-bold"
-						style={{ color: "#000" }}>
-						{props.text}
-					</p>
-				</div>
+				<p
+					className="text-center text-2xl font-bold w-full"
+					style={{ color: "#000" }}>
+					{props.text}
+				</p>
 			</div>
 			<div className="grid row-span-8">{props.children}</div>
 			<div className="grid row-span-2">

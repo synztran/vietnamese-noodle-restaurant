@@ -104,7 +104,7 @@ export default function HighlightMenus() {
 			</div>
 			<Link href="/menus">
 				<Button className="text-xl transition-all hover:rotate-6">
-					Show more
+					Khá phá nhiều hơn
 				</Button>
 			</Link>
 		</div>

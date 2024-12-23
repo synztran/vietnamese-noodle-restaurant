@@ -117,7 +117,7 @@ export function Navigator() {
 			className={clsx(
 				"flex items-center gap-[5rem] justify-center mx-auto transition-all",
 				isSticky
-					? "sticky top-0 bg-[rgba(255,255,255,0.2)] z-[1000] w-full"
+					? "sticky top-0 bg-[rgba(0,0,0,0.8)] z-[1000] w-full"
 					: ""
 			)}
 			style={{ minHeight: "10vh" }}>
@@ -249,12 +249,12 @@ const RightNavigator = () => {
 				</NavigationMenuItem>
 				<NavigationMenuItem
 					style={{ minWidth: 130, textAlign: "center" }}>
-					<Link href="/rating">
-						<NavigationMenuLink
-							className={navigationMenuTriggerStyle()}>
-							Góp ý
-						</NavigationMenuLink>
-					</Link>
+					{/* <Link href="/rating"> */}
+					<NavigationMenuLink
+						className={navigationMenuTriggerStyle()}>
+						Góp ý
+					</NavigationMenuLink>
+					{/* </Link> */}
 				</NavigationMenuItem>
 			</NavigationMenuList>
 		</NavigationMenu>
