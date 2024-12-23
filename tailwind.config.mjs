@@ -107,6 +107,9 @@ export default {
 				"custom-gradient":
 					"linear-gradient(180deg, var(--tw-gradient-stops))",
 			},
+			screens: {
+				xs: "430px",
+			},
 		},
 		animation: {
 			scaleIn: "scaleIn 200ms ease",

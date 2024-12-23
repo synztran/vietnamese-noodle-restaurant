@@ -77,12 +77,12 @@ export default function HighlightMenus() {
 					Những món ăn ưa chuộng bởi người việt
 				</span>
 			</div>
-			<div className="flex gap-8">
+			<div className="grid grid-cols-4 gap-8">
 				{temp.upper.map((item, index) => (
 					<motion.section
 						ref={highLightMenuRef}
 						key={index}
-						className="bg-[rgba(255,255,255,0.1)] !rounded-tr-[50px] !rounded-tl-[50px] px-2 pt-2 pb-8 min-h-[300px] flex flex-col justify-between"
+						className="md:col-span-1 sm:col-span-2 xs:col-span-2 bg-[rgba(255,255,255,0.1)] !rounded-tr-[50px] !rounded-tl-[50px] px-2 pt-2 pb-8 min-h-[300px] flex flex-col justify-between"
 						{...motionProps}>
 						<img
 							src={item.image}
