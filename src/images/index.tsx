@@ -1,0 +1,11 @@
+export const NOODLE_ICON = "./public/icon.png"; // Path: src/images/index.tsx
+export const HEADER_NOODLE_ICON = "./logo-header.jpeg"; // Path: src/images/index.tsx
+export const HEADER_NOODLE_ICON_REMOVE_BG = "./logo-header-remove.png"; // Path: src/images/index.tsx
+export const MENU_BG = "./menu_bg.jpeg";
+export const MENU_BG_2 = "./menu_bg_2.jpeg";
+export const MENU_BG_3 = "./menu_bg_3.jpeg";
+export const BANNER_1 = "./banners/banner_1.jpeg";
+export const BANNER_2 = "./banners/banner_2.jpeg";
+export const BANNER_3 = "./banners/banner_3.jpeg";
+export const INTRO_IMAGE = "./intro_image.png";
+export const background = "./background/background.png";

@@ -1,0 +1,18 @@
+---
+import CustomerReview from "@/components/CustomerReview";
+import HeroSection from "@/components/HeroSection";
+import HighlightMenus from "@/components/HighlightMenu";
+import Introduction from "@/components/Intro";
+import SliderSwiper from "@/components/SliderSwiper";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Hủ tiếu Ngọc Mai - Kính chào">
+	<main class="flex flex-col gap-16">
+		<Introduction client:load />
+		<HighlightMenus client:load />
+		<SliderSwiper client:load />
+		<HeroSection client:load />
+		<CustomerReview client:load />
+	</main>
+</Layout>

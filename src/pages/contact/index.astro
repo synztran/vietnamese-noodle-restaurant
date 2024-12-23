@@ -1,0 +1,128 @@
+---
+import GGMap from "@/components/Map";
+import Tag from "@/components/Tag";
+import TitleWithText from "@/components/TitleWithText";
+import Layout from "@/layouts/Layout.astro";
+
+const tags: { text: string }[] = [
+	{
+		text: "Có bãi đậu xe 2 bánh",
+	},
+	{
+		text: "Có nhà vệ sinh riêng",
+	},
+	{
+		text: "Có wifi",
+	},
+	{
+		text: "Có bán nước giải khát",
+	},
+	{
+		text: "Hỗ trợ người khuyết tật",
+	},
+	{
+		text: "Có hỗ trợ gộp bàn số lượng lớn",
+	},
+	{
+		text: "Bán mang về",
+	},
+];
+
+const opens: {
+	[x: string]: { start?: string; end?: string };
+}[] = [
+	{
+		"thứ 2": {
+			start: "7:00",
+			end: "11:30",
+		},
+	},
+	{
+		"thứ 3": {
+			start: "7:00",
+			end: "11:30",
+		},
+	},
+	{
+		"thứ 4": {
+			start: "7:00",
+			end: "11:30",
+		},
+	},
+	{
+		"thứ 5": {
+			start: "7:00",
+			end: "11:30",
+		},
+	},
+	{
+		"thứ 6": {
+			start: "7:00",
+			end: "11:30",
+		},
+	},
+	{
+		"thứ 7": {
+			start: "7:00",
+			end: "11:30",
+		},
+	},
+];
+---
+
+<Layout>
+	<main>
+		<div class="flex flex-col items-center my-4 gap-4">
+			<div class="text-4xl">Liên hệ ngay với chúng tôi</div>
+			<div
+				class="flex sm:flex-col gap-12 md:flex-col lg:flex-row xl:flex-row">
+				<div class="w-1/2">
+					<GGMap />
+				</div>
+				<div class="flex flex-col w-1/2">
+					<div class="text-3xl">Thông tin chi tiết</div>
+					<div
+						class="w-full h-1 border-b border-solid border-gray-500">
+					</div>
+					<TitleWithText title="Tên quán" text="Hủ tiếu Ngọc Mai" />
+					<TitleWithText
+						title="Địa chỉ"
+						text="Hẻm 56A2 Đại lộ Đồng Khởi p. Phú Tân TP. Bến Tre (Hẻm cạnh UBND Phú Tân)"
+					/>
+					<TitleWithText
+						title="Liên hệ đặt bàn hoặc giao món"
+						text=""
+					/>
+					<a href="tel:+84902728472">
+						<span class="underline text-blue-500 font-bold text-xl">
+							+84 902 72 84 72
+						</span>
+					</a>
+					<TitleWithText title="Tiện ích" text="" />
+					<div class="flex flex-wrap gap-2">
+						{
+							tags.map((tag) => (
+								<Tag text={tag.text} textColor="#fff" />
+							))
+						}
+					</div>
+					<TitleWithText title="Thời gian mở bán" text="" />
+					{
+						opens.map((open) => (
+							<div class="flex flex-wrap gap-2">
+								{Object.entries(open).map(([day, time]) => (
+									<div>
+										<span class="capitalize">{day}:</span>
+										<span class="font-semibold text-xl">
+											{time.start} - {time.end}
+										</span>
+									</div>
+								))}
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</main>
+</Layout>

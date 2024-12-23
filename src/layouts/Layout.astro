@@ -1,0 +1,28 @@
+---
+import Footer from "@/components/Footer/index";
+import { Navigator } from "@/components/Navigator/navigator";
+import "../../styles/globals.css";
+
+const title = "Hủ tiếu Ngọc Mai - Kính chào";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<div
+			class="container min-h-screen min-w-screen mx-auto"
+			style={{ maxWidth: "1890px" }}>
+			<Navigator client:load />
+			<slot />
+		</div>
+		<Footer />
+	</body>
+</html>
