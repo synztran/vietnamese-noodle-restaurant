@@ -3,7 +3,6 @@ import Link from "../Link";
 import { Button } from "../ui/button";
 
 export default function Introduction() {
-	console.log("1");
 	return (
 		<div className="grid grid-cols-2">
 			<div className="col-span-1 xs:col-span-2 flex flex-col gap-4">
