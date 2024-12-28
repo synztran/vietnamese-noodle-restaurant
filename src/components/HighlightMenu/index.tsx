@@ -82,15 +82,16 @@ export default function HighlightMenus() {
 					<motion.section
 						ref={highLightMenuRef}
 						key={index}
-						className="md:col-span-1 sm:col-span-2 xs:col-span-2 bg-[rgba(255,255,255,0.1)] !rounded-tr-[50px] !rounded-tl-[50px] px-2 pt-2 pb-8 min-h-[300px] flex flex-col justify-between"
+						className="md:col-span-1 sm:col-span-2 xs:col-span-2 bg-[rgba(255,255,255,0.1)] !rounded-tr-[50px] !rounded-tl-[50px] px-2 pt-2 pb-8 min-h-[300px] justify-between grid grid-rows-2"
 						{...motionProps}>
 						<img
 							src={item.image}
 							alt={item.label}
 							width={180}
 							height={60}
+							className="row-span-1"
 						/>
-						<div>
+						<div className="row-span-1">
 							<span className="text-black text-2xl font-bold">
 								{item.label}
 							</span>

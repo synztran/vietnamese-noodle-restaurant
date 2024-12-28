@@ -108,7 +108,8 @@ export default {
 					"linear-gradient(180deg, var(--tw-gradient-stops))",
 			},
 			screens: {
-				xs: "430px",
+				xs: { max: "430px" },
+				sm: { max: "640px" },
 			},
 		},
 		animation: {
@@ -120,6 +121,11 @@ export default {
 			enterFromRight: "enterFromRight 250ms ease",
 			exitToLeft: "exitToLeft 250ms ease",
 			exitToRight: "exitToRight 250ms ease",
+		},
+	},
+	variants: {
+		extend: {
+			content: ["before", "after"],
 		},
 	},
 	plugins: [require("tailwindcss-animate")],

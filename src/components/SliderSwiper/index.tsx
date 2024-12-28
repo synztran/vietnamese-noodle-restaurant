@@ -10,6 +10,7 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
+import { useViewport } from "@/contexts/viewportContext";
 import useMotion from "@/hook/useMotion";
 import { BANNER_1, BANNER_2, BANNER_3 } from "@/images";
 import { useMemo, useRef } from "react";
@@ -42,6 +43,7 @@ interface IProps {
 }
 
 export default function SliderSwiper(props: IProps) {
+	const viewportWidth = useViewport();
 	const sliderWiperRef = useRef(null);
 	const stateBanners = useMemo(
 		() => props.banners || defaultBanners,
@@ -62,11 +64,9 @@ export default function SliderSwiper(props: IProps) {
 				spaceBetween={20}
 				loop={true}
 				grabCursor={true}
-				slidesPerView={defaultSlideToView}
+				slidesPerView={viewportWidth <= 640 ? 1 : defaultSlideToView}
 				scrollbar={{ draggable: true }}
 				autoplay={{ delay: deplayAutoplay }}
-				// onSwiper={(swiper) => console.log(swiper)}
-				// onSlideChange={() => console.log("slide change")}
 				className="">
 				{stateBanners.map((banner, index) => (
 					<SwiperSlide key={index}>
