@@ -117,7 +117,7 @@ export function Navigator() {
 			className={clsx(
 				"flex items-center gap-[5rem] justify-center mx-auto transition-all",
 				isSticky
-					? "sticky top-0 bg-[rgba(0,0,0,0.8)] z-[1000] w-full"
+					? "fixed top-0 bg-[rgba(0,0,0,0.5)] z-[1000] w-full"
 					: ""
 			)}
 			style={{ minHeight: "10vh" }}>

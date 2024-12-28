@@ -78,10 +78,11 @@ html {
 
 body {
 	background-size: 100% 100%;
-	background-repeat: repeat;
+	background-repeat: no-repeat;
 	background-position: center;
   width: 100vw;
   overflow-x: hidden;
+  background-color: #629e60;
 }
 
 main {
