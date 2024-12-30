@@ -11,10 +11,12 @@ import {
 	NavigationMenuTrigger,
 	navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { useViewport } from "@/contexts/viewportContext";
 import { HEADER_NOODLE_ICON_REMOVE_BG, NOODLE_ICON } from "@/images";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import Link from "../Link";
+import { MobileNavigator } from "./Mobile";
 import "./style.css";
 
 const menu: { title: string; href: string; description: string }[] = [
@@ -98,6 +100,8 @@ const rightComp: { title: string; href: string; description: string }[] = [];
 const title = "Hủ tiếu ngọc mai";
 
 export function Navigator() {
+	const viewportWidth = useViewport();
+	console.log(viewportWidth);
 	const [isSticky, setSticky] = React.useState(false);
 	const sentinelRef = React.useRef<HTMLDivElement>(null);
 
@@ -112,12 +116,16 @@ export function Navigator() {
 		};
 	}, []);
 
+	if (viewportWidth <= 640) {
+		return <MobileNavigator />;
+	}
+
 	return (
 		<div
 			className={clsx(
 				"flex items-center gap-[5rem] justify-center mx-auto transition-all",
 				isSticky
-					? "fixed top-0 bg-[rgba(0,0,0,0.5)] z-[1000] w-full"
+					? "fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-[1000] w-full"
 					: ""
 			)}
 			style={{ minHeight: "10vh" }}>
