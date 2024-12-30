@@ -1,6 +1,6 @@
 ---
 import Footer from "@/components/Footer/index";
-import { Navigator } from "@/components/Navigator/navigator";
+import LayoutWrapper from "@/components/LayoutWrapper";
 import "../../styles/globals.css";
 
 const title = "Hủ tiếu Ngọc Mai - Kính chào";
@@ -20,7 +20,7 @@ const title = "Hủ tiếu Ngọc Mai - Kính chào";
 		<div
 			class="container min-h-screen min-w-screen mx-auto"
 			style={{ maxWidth: "min(1890px, 100vw)" }}>
-			<Navigator client:load />
+			<LayoutWrapper client:load />
 			<slot />
 		</div>
 		<Footer />

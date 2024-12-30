@@ -31,7 +31,7 @@ body {
 }
 
 .page {
-	width: 100% !important;
+	width: min(100%, 100vw) !important;
 	height: inherit !important;
 	border-radius: 0 8px 8px 0;
 	padding: 2em 2.25em;
@@ -42,4 +42,20 @@ body {
 	height: 0;
 	opacity: 0;
 	visibility: hidden;
+}
+
+@media screen and (max-width: 640px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .menuMain {
+    width: min(430px, 90vw) !important;
+    min-width: min(430px, 90vw) !important;
+  }
+
+  .menuWrapper {
+    align-items: flex-start;
+  }
+
 }

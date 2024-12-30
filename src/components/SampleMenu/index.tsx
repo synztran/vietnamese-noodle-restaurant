@@ -1,4 +1,5 @@
 import { MENU_CATEGORY } from "@/constants";
+import { useViewport } from "@/contexts/viewportContext";
 import { formatCurrency } from "@/lib/utils";
 import clsx from "clsx";
 import { MoveLeft, MoveRight } from "lucide-react";
@@ -19,13 +20,18 @@ export default function SampleMenu(props: {
 	currentPage: string;
 	currencyRate: number;
 }) {
+	const viewportWidth = useViewport();
 	const [page, setPage] = useState(Number(props.currentPage) || 1);
 
 	return (
 		<div className="menuContainer">
 			<div className="menuWrapper">
-				<PrevArrow page={page} setPage={setPage} />
-				<div className="w-full h-full relative menuMain">
+				{viewportWidth <= 640 ? null : (
+					<PrevArrow page={page} setPage={setPage} />
+				)}
+				<div
+					className="relative menuMain h-full"
+					style={{ width: "min(100%, 100vw)" }}>
 					{Object.entries(MENU_CATEGORY).map(
 						([key, value], index) => (
 							<Page
@@ -44,7 +50,9 @@ export default function SampleMenu(props: {
 						)
 					)}
 				</div>
-				<NextArrow page={page} setPage={setPage} />
+				{viewportWidth <= 640 ? null : (
+					<NextArrow page={page} setPage={setPage} />
+				)}
 			</div>
 		</div>
 	);
