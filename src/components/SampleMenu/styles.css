@@ -52,6 +52,7 @@ body {
   .menuMain {
     width: min(430px, 90vw) !important;
     min-width: min(430px, 90vw) !important;
+    height: 100%!important;
   }
 
   .menuWrapper {
