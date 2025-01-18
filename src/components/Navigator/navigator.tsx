@@ -9,6 +9,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
+import { rating_url } from "@/constants";
 import { HEADER_NOODLE_ICON_REMOVE_BG } from "@/images";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
