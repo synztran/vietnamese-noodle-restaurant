@@ -3,19 +3,19 @@
 import * as React from "react";
 
 import {
-	NavigationMenu,
-	NavigationMenuContent,
-	NavigationMenuItem,
-	NavigationMenuLink,
-	NavigationMenuList,
-	NavigationMenuTrigger,
-	navigationMenuTriggerStyle,
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
+import { rating_url } from "@/constants";
 import { useViewport } from "@/contexts/viewportContext";
-import { HEADER_NOODLE_ICON_REMOVE_BG, NOODLE_ICON } from "@/images";
+import { HEADER_NOODLE_ICON_REMOVE_BG } from "@/images";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import Link from "../Link";
+import { Skeleton } from "../ui/skeleton";
 import { MobileNavigator } from "./Mobile";
 import "./style.css";
 
@@ -100,8 +100,7 @@ const rightComp: { title: string; href: string; description: string }[] = [];
 const title = "Hủ tiếu ngọc mai";
 
 export function Navigator() {
-	const viewportWidth = useViewport();
-	console.log(viewportWidth);
+	const { viewportWidth, isCalculating } = useViewport();
 	const [isSticky, setSticky] = React.useState(false);
 	const sentinelRef = React.useRef<HTMLDivElement>(null);
 
@@ -115,6 +114,10 @@ export function Navigator() {
 			window.removeEventListener("scroll", handleScroll);
 		};
 	}, []);
+
+  if (isCalculating) {
+    return <Skeleton className="h-[120px] w-full bg-[rgba(0,0,0,0.4)]" />
+  }
 
 	if (viewportWidth <= 640) {
 		return <MobileNavigator />;
@@ -158,7 +161,16 @@ const LeftNavigator = () => {
 						</NavigationMenuLink>
 					</Link>
 				</NavigationMenuItem>
-				<NavigationMenuItem
+        <NavigationMenuItem
+					style={{ minWidth: 130, textAlign: "center" }}>
+					<Link href="/about-us">
+						<NavigationMenuLink
+							className={navigationMenuTriggerStyle()}>
+							Về chúng tôi
+						</NavigationMenuLink>
+					</Link>
+				</NavigationMenuItem>
+				{/* <NavigationMenuItem
 					style={{ minWidth: 130, textAlign: "center" }}>
 					<NavigationMenuTrigger>Menu</NavigationMenuTrigger>
 					<NavigationMenuContent>
@@ -224,7 +236,7 @@ const LeftNavigator = () => {
 							))}
 						</ul>
 					</NavigationMenuContent>
-				</NavigationMenuItem>
+				</NavigationMenuItem> */}
 			</NavigationMenuList>
 		</NavigationMenu>
 	);
@@ -234,7 +246,7 @@ const RightNavigator = () => {
 	return (
 		<NavigationMenu>
 			<NavigationMenuList>
-				<NavigationMenuItem
+				{/* <NavigationMenuItem
 					style={{ minWidth: 130, textAlign: "center" }}>
 					<Link href="/about-us">
 						<NavigationMenuLink
@@ -242,7 +254,7 @@ const RightNavigator = () => {
 							Về chúng tôi
 						</NavigationMenuLink>
 					</Link>
-				</NavigationMenuItem>
+				</NavigationMenuItem> */}
 				<NavigationMenuItem
 					style={{
 						minWidth: 150,
@@ -256,13 +268,14 @@ const RightNavigator = () => {
 					</Link>
 				</NavigationMenuItem>
 				<NavigationMenuItem
-					style={{ minWidth: 130, textAlign: "center" }}>
-					{/* <Link href="/rating"> */}
-					<NavigationMenuLink
-						className={navigationMenuTriggerStyle()}>
-						Góp ý
-					</NavigationMenuLink>
-					{/* </Link> */}
+					style={{ minWidth: 150, textAlign: "center" }}>
+            <Link href={rating_url} target="_blank">
+						<NavigationMenuLink
+							className={navigationMenuTriggerStyle()}
+            >
+						  Góp ý
+						</NavigationMenuLink>
+					</Link>
 				</NavigationMenuItem>
 			</NavigationMenuList>
 		</NavigationMenu>

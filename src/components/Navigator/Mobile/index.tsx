@@ -2,56 +2,33 @@
 import Link from "@/components/Link";
 import { Button } from "@/components/ui/button";
 import {
-	Drawer,
-	DrawerClose,
-	DrawerContent,
-	DrawerFooter,
-	DrawerHeader,
-	DrawerTrigger,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { HEADER_NOODLE_ICON_REMOVE_BG } from "@/images";
 import { Menu, X } from "lucide-react";
 import * as React from "react";
 
-const data = [
+const menuItems = [
 	{
-		goal: 400,
+		label: "Trang chủ",
+		href: "/",
 	},
 	{
-		goal: 300,
+		label: "Menu",
+		href: "/menus",
 	},
 	{
-		goal: 200,
+		label: "Về chúng tôi",
+		href: "/about",
 	},
 	{
-		goal: 300,
-	},
-	{
-		goal: 200,
-	},
-	{
-		goal: 278,
-	},
-	{
-		goal: 189,
-	},
-	{
-		goal: 239,
-	},
-	{
-		goal: 300,
-	},
-	{
-		goal: 200,
-	},
-	{
-		goal: 278,
-	},
-	{
-		goal: 189,
-	},
-	{
-		goal: 349,
+		label: "Liên hệ",
+		href: "/contact",
 	},
 ];
 
@@ -93,14 +70,19 @@ export function MobileNavigator() {
 			</div>
 
 			<DrawerContent>
-				<div className="mx-auto w-full max-w-sm">
+				<div className="mx-auto w-full max-w-md">
 					<DrawerHeader>
 						{/* <DrawerTitle>Move Goal</DrawerTitle>
 						<DrawerDescription>
 							Set your daily activity goal.
 						</DrawerDescription> */}
 					</DrawerHeader>
-					<div className="p-4 pb-0">
+					<div className="flex flex-col gap-4">
+						{menuItems?.map((item) => (
+							<Link key={item.href} href={item.href}>
+								<span className="text-xl py-2 cursor-pointer">{item.label}</span>
+							</Link>
+						))}
 						{/* <div className="flex items-center justify-center space-x-2">
 							<Button
 								variant="outline"
@@ -129,14 +111,14 @@ export function MobileNavigator() {
 								<span className="sr-only">Increase</span>
 							</Button>
 						</div> */}
-						<div className="mt-3 h-[120px]"></div>
+						{/* <div className="mt-3 h-[120px]"></div> */}
 					</div>
-					<DrawerFooter>
+					<DrawerFooter className="px-0">
 						{/* <Button>Submit</Button> */}
 						<DrawerClose asChild>
 							<Button
 								className="text-xl"
-								variant="outline"
+								variant="default"
 								onClick={handleToggleDrawer}>
 								Đóng
 							</Button>

@@ -8,6 +8,10 @@ export default {
 	],
 	theme: {
 		extend: {
+			fontSize: {
+				xs: ["0.5rem", { lineHeight: "1rem" }],
+				md: ["1rem", { lineHeight: "1.5rem" }],
+			},
 			borderRadius: {
 				lg: "var(--radius)",
 				md: "calc(var(--radius) - 2px)",
@@ -121,6 +125,7 @@ export default {
 			enterFromRight: "enterFromRight 250ms ease",
 			exitToLeft: "exitToLeft 250ms ease",
 			exitToRight: "exitToRight 250ms ease",
+			pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite", // skeleton
 		},
 	},
 	variants: {

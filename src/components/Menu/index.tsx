@@ -50,7 +50,6 @@ export default function MenuComp() {
 	const handleResize = () => {
 		let vh = Math.round(calculateVh(70));
 		let vw = Math.round(calculateVw(30));
-		console.log("v", vw, vh);
 		const compareVhWithPx = Math.min(flipBookHeight, vh);
 		const compareVwWithPx = Math.min(flipBookWidth, vw);
 		setFlipBookHeight(compareVhWithPx);
@@ -66,9 +65,6 @@ export default function MenuComp() {
 			window.removeEventListener("resize", handleResize);
 		};
 	}, [flipBookHeight, flipBookWidth]);
-
-	console.log("flipBookHeight", flipBookHeight);
-	console.log("flipBookWidth", flipBookWidth);
 
 	return (
 		<div className="menuContainer">
