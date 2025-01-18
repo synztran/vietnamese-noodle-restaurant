@@ -9,7 +9,7 @@ interface IProps {
 const MenuWrapper = ({ rate, page }: IProps) => {
 	return (
 		<ViewportProvider>
-			<main className="flex justify-center">
+			<main className="flex justify-center xs:my-[1rem]">
 				<SampleMenu currentPage={page as string} currencyRate={rate} />
 			</main>
 		</ViewportProvider>

@@ -1,16 +1,20 @@
+import LikeIcon from "@/iconify/like";
+import StarIcon from "@/iconify/star";
+
 export const MENU_CATEGORY: Record<
 	string,
 	{
-		name: string;
+		name?: string;
 		items?: { name: string }[];
-		price: number;
-		replaceName: string;
+		price?: number;
+		replaceName?: string;
 		tag?: string;
 		vnTag?: string;
 		tagStyle?: string;
+		iconTag?: () => JSX.Element;
 	}[]
 > = {
-	"Hủ tiếu - Vietnamese rice noodle": [
+	"Vietnamese rice noodle": [
 		{
 			name: "Hủ tiếu gà",
 			price: 35000,
@@ -29,6 +33,7 @@ export const MENU_CATEGORY: Record<
 			replaceName: "Seafood rice noodle soup",
 			tag: "Must try",
 			vnTag: "Nên thử",
+			iconTag: LikeIcon,
 			tagStyle: "bg-orange-500",
 		},
 		{
@@ -62,10 +67,11 @@ export const MENU_CATEGORY: Record<
 			replaceName: "Wonton rice noodle soup",
 			tag: "Signature",
 			vnTag: "Độc quyền",
+			iconTag: StarIcon,
 			tagStyle: "bg-red-500",
 		},
 	],
-	"Mì - Vietnamese noodle": [
+	"Vietnamese noodle": [
 		{
 			name: "Mì gà",
 			price: 35000,
@@ -84,7 +90,8 @@ export const MENU_CATEGORY: Record<
 			replaceName: "Seafood vietnamese noodle soup",
 			tag: "Must try",
 			vnTag: "Nên thử",
-			tagStyle: "bg-orange-500",
+			iconTag: LikeIcon,
+			tagStyle: "bg-orange-500 text-lg sm:text-xs",
 		},
 		{
 			name: "Mì lòng heo",
@@ -117,7 +124,8 @@ export const MENU_CATEGORY: Record<
 			replaceName: "Wonton vietnamese noodle soup",
 			tag: "Signature",
 			vnTag: "Độc quyền",
-			tagStyle: "bg-red-500",
+			iconTag: StarIcon,
+			tagStyle: "bg-red-500 text-lg sm:text-xs",
 		},
 		{
 			name: "Mì gói/Mì bột/Mì trứng",
@@ -125,7 +133,7 @@ export const MENU_CATEGORY: Record<
 			replaceName: "Instant/Wheat flour/Egg noodles",
 		},
 	],
-	"Bánh canh - Vietnamese thick noodle": [
+	"Vietnamese thick noodle": [
 		{
 			name: "Bánh canh gà",
 			price: 35000,
@@ -144,7 +152,8 @@ export const MENU_CATEGORY: Record<
 			replaceName: "Seafood vietnamese noodle soup",
 			tag: "Must try",
 			vnTag: "Nên thử",
-			tagStyle: "bg-orange-500",
+			iconTag: LikeIcon,
+			tagStyle: "bg-orange-500 text-lg sm:text-xs",
 		},
 		{
 			name: "Bánh canh lòng heo",
@@ -177,7 +186,10 @@ export const MENU_CATEGORY: Record<
 			replaceName: "Wonton vietnamese noodle soup",
 			tag: "Signature",
 			vnTag: "Độc quyền",
-			tagStyle: "bg-red-500",
+			iconTag: StarIcon,
+			tagStyle: "bg-red-500 text-lg sm:text-xs",
 		},
 	],
 };
+
+export const rating_url = "https://g.page/r/CUB3a53BCVllEBM/review";

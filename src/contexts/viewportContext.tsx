@@ -1,6 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-const ViewportContext = createContext<number | undefined>(undefined);
+const ViewportContext = createContext<{
+	viewportWidth: number;
+	isCalculating: boolean;
+}>({
+	viewportWidth: 0,
+	isCalculating: true,
+});
 
 interface IProps {
 	children: React.ReactNode;
@@ -8,10 +14,13 @@ interface IProps {
 
 export const ViewportProvider = ({ children }: IProps) => {
 	const [viewportWidth, setViewportWidth] = useState<number>(0);
+	const [isCalculating, setCalculating] = useState<boolean>(true);
 
 	useEffect(() => {
 		const handleResize = () => {
+		  setCalculating(true);
 			setViewportWidth(window.innerWidth);
+		  setCalculating(false);
 		};
 
 		// Set initial viewport width
@@ -26,7 +35,7 @@ export const ViewportProvider = ({ children }: IProps) => {
 	}, []);
 
 	return (
-		<ViewportContext.Provider value={viewportWidth}>
+		<ViewportContext.Provider value={{ viewportWidth, isCalculating }}>
 			{children}
 		</ViewportContext.Provider>
 	);

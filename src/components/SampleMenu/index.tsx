@@ -20,7 +20,7 @@ export default function SampleMenu(props: {
 	currentPage: string;
 	currencyRate: number;
 }) {
-	const viewportWidth = useViewport();
+	const {viewportWidth, isCalculating} = useViewport();
 	const [page, setPage] = useState(Number(props.currentPage) || 1);
 
 	return (
@@ -54,6 +54,12 @@ export default function SampleMenu(props: {
 					<NextArrow page={page} setPage={setPage} />
 				)}
 			</div>
+      {viewportWidth <= 640 && !isCalculating ? (
+        <div className="flex justify-evenly gap-8 mt-2">
+          	<PrevArrow page={page} setPage={setPage} />
+            <NextArrow page={page} setPage={setPage} />
+        </div>
+      ) : null}
 		</div>
 	);
 }
@@ -68,7 +74,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 			ref={ref}>
 			<div className="grid row-span-2">
 				<p
-					className="text-center text-2xl font-bold w-full"
+					className="text-center text-2xl xs:text-xl font-bold w-full"
 					style={{ color: "#000" }}>
 					{props.text}
 				</p>
@@ -77,7 +83,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 			<div className="grid row-span-2">
 				<div className="grid grid-cols-[1fr,1fr] grid-flow-col">
 					<div className="grid row-span-1">
-						<p className="text-black text-3xl font-bold text-center whitespace-normal">
+						<p className="text-black text-3xl xs:text-xl font-bold text-center whitespace-normal">
 							Trang&nbsp;{props.number} &nbsp;|&nbsp; Page&nbsp;
 							{props.number}
 						</p>
@@ -143,23 +149,24 @@ const Menu = ({
 	currencyRate,
 }: {
 	item: {
-		name: string;
-		price: number;
+		name?: string;
+		price?: number;
 		items?: { name: string }[];
-		replaceName: string;
+		replaceName?: string;
 		tag?: string;
 		vnTag?: string;
 		tagStyle?: string;
+    iconTag?: () => JSX.Element;
 	};
 	currencyRate: number;
 }) => {
 	return (
 		<div className="flex justify-between px-4">
 			<div className="flex flex-col">
-				<div className="text-left text-xl font-bold flex items-center">
+				<div className="text-left text-xl xs:text-md font-bold flex items-center">
 					{item.name}
 					&nbsp;
-					{item.tag ? (
+					{/* {item.tag ? (
 						<span
 							className={clsx(
 								"text-sm rounded-sm text-white p-1 rotate-6",
@@ -167,11 +174,19 @@ const Menu = ({
 							)}>
 							{item.vnTag}
 						</span>
+					) : null} */}
+          {item.iconTag ? (
+						<span
+							className={clsx(
+								"text-sm rounded-sm text-white p-1 rotate-6",
+							)}>
+							<item.iconTag />
+						</span>
 					) : null}
 				</div>
-				<div className="flex text-lg justify-start text-left mt-2">
+				<div className="flex text-lg xs:text-sm justify-start text-left mt-1 xs:mt-0">
 					{item.replaceName}
-					&nbsp;
+					{/* &nbsp;
 					{item.vnTag ? (
 						<span
 							className={clsx(
@@ -180,7 +195,7 @@ const Menu = ({
 							)}>
 							{item.tag}
 						</span>
-					) : null}
+					) : null} */}
 					{/* {item.items.map((subItem, index) => (
             <div key={index}>
               {subItem.name}
@@ -190,16 +205,16 @@ const Menu = ({
 				</div>
 			</div>
 			<div className="flex gap-1">
-				{item.price > 0 ? (
+				{item.price && item.price > 0 ? (
 					<div>
 						<span
-							className="text-lg rounded-md max-h-max p-0.5 text-white font-bold"
+							className="text-lg xs:text-sm rounded-md max-h-max p-0.5 text-white font-bold"
 							style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
 							{formatCurrency(item.price)}
 						</span>
-						<span className="text-lg p-0.5">/</span>
+						<span className="text-lg xs:text-sm p-0.5">/</span>
 						<span
-							className="text-lg rounded-md max-h-max p-0.5 text-white font-bold"
+							className="text-lg xs:text-sm rounded-md max-h-max p-0.5 text-white font-bold"
 							style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
 							{formatCurrency(item.price, "en-US", currencyRate)}
 						</span>

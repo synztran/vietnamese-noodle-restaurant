@@ -1,10 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { BANNER_1, BANNER_2, BANNER_3 } from "@/images";
 import { useMemo } from "react";
@@ -45,8 +45,6 @@ export default function CarouselComponent(props: IProps) {
 		}
 		return defaultBanners;
 	}, [banners]);
-
-	console.log(bannerState);
 
 	return (
 		<Carousel
