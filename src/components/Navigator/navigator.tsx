@@ -10,10 +10,13 @@ import {
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
 import { rating_url } from "@/constants";
+import { useViewport } from "@/contexts/viewportContext";
 import { HEADER_NOODLE_ICON_REMOVE_BG } from "@/images";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import Link from "../Link";
+import { Skeleton } from "../ui/skeleton";
+import { MobileNavigator } from "./Mobile";
 import "./style.css";
 
 const menu: { title: string; href: string; description: string }[] = [
@@ -97,6 +100,7 @@ const rightComp: { title: string; href: string; description: string }[] = [];
 const title = "Hủ tiếu ngọc mai";
 
 export function Navigator() {
+  const { viewportWidth, isCalculating } = useViewport();
 	const [isSticky, setSticky] = React.useState(false);
 	const sentinelRef = React.useRef<HTMLDivElement>(null);
 
@@ -110,6 +114,14 @@ export function Navigator() {
 			window.removeEventListener("scroll", handleScroll);
 		};
 	}, []);
+
+  if (isCalculating) {
+    return <Skeleton className="h-[120px] w-full bg-[rgba(0,0,0,0.4)] rounded-none" />
+  }
+
+	if (viewportWidth <= 640) {
+		return <MobileNavigator />;
+	}
 
 	return (
 		<div
