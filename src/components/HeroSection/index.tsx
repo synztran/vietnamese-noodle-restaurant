@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useRef } from "react";
 
 const HeroSection = () => {
-	const viewportWidth = useViewport();
+	const {viewportWidth, isCalculating} = useViewport();
 	const ref = useRef(null);
 	const { motionProps } = useMotion({
 		initial: { opacity: 0, y: 100 },

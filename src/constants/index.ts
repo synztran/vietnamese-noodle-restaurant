@@ -133,7 +133,7 @@ export const MENU_CATEGORY: Record<
 			replaceName: "Instant/Wheat flour/Egg noodles",
 		},
 	],
-	"Vietnamese thick noodle": [
+	" Vietnamese thick noodle": [
 		{
 			name: "Bánh canh gà",
 			price: 35000,
