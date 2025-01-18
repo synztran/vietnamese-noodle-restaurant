@@ -1,11 +1,11 @@
 // Import Swiper React components
 import { motion } from "framer-motion";
 import {
-	A11y,
-	Autoplay,
-	Navigation,
-	Pagination,
-	Scrollbar,
+  A11y,
+  Autoplay,
+  Navigation,
+  Pagination,
+  Scrollbar,
 } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -43,7 +43,7 @@ interface IProps {
 }
 
 export default function SliderSwiper(props: IProps) {
-	const viewportWidth = useViewport();
+	const {viewportWidth, isCalculating} = useViewport();
 	const sliderWiperRef = useRef(null);
 	const stateBanners = useMemo(
 		() => props.banners || defaultBanners,

@@ -182,12 +182,13 @@ const Menu = ({
 	item,
 }: {
 	item: {
-		name: string;
-		price: number;
+		name?: string;
+		price?: number;
 		items?: { name: string }[];
-		replaceName: string;
+		replaceName?: string;
 		tag?: string;
 		tagStyle?: string;
+    iconTag?: () => JSX.Element
 	};
 }) => {
 	return (
@@ -217,7 +218,7 @@ const Menu = ({
 				</div>
 			</div>
 			<div className="flex gap-1">
-				{item.price > 0 ? (
+				{item.price && item.price > 0 ? (
 					<div>
 						<span
 							className="text-lg rounded-md max-h-max p-0.5 text-white font-bold"
