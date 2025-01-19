@@ -9,6 +9,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useViewport } from "@/contexts/viewportContext";
 import { HEADER_NOODLE_ICON_REMOVE_BG } from "@/images";
 import { Menu, X } from "lucide-react";
 import * as React from "react";
@@ -22,10 +23,10 @@ const menuItems = [
 		label: "Menu",
 		href: "/menus",
 	},
-	{
-		label: "Về chúng tôi",
-		href: "/about",
-	},
+	// {
+	// 	label: "Về chúng tôi",
+	// 	href: "/about",
+	// },
 	{
 		label: "Liên hệ",
 		href: "/contact",
@@ -35,14 +36,13 @@ const menuItems = [
 export function MobileNavigator() {
 	const [goal, setGoal] = React.useState(350);
 	const [isOpen, toggleOpen] = React.useState(false);
-
-	function onClick(adjustment: number) {
-		setGoal(Math.max(200, Math.min(400, goal + adjustment)));
-	}
+  const { pathName } = useViewport()
 
 	function handleToggleDrawer() {
 		toggleOpen(!isOpen);
 	}
+
+  console.log(pathName)
 
 	return (
 		<Drawer onClose={handleToggleDrawer}>
@@ -70,19 +70,31 @@ export function MobileNavigator() {
 			</div>
 
 			<DrawerContent>
-				<div className="mx-auto w-full max-w-md">
+				<div className="mx-auto w-full max-w-m px-4">
 					<DrawerHeader>
 						{/* <DrawerTitle>Move Goal</DrawerTitle>
 						<DrawerDescription>
 							Set your daily activity goal.
 						</DrawerDescription> */}
 					</DrawerHeader>
-					<div className="flex flex-col gap-4">
-						{menuItems?.map((item) => (
-							<Link key={item.href} href={item.href}>
-								<span className="text-xl py-2 cursor-pointer">{item.label}</span>
-							</Link>
-						))}
+					<div className="flex flex-col gap-2">
+						{menuItems?.map((item) => {
+              const isCurrent = pathName !== "/" && item.href.includes(pathName)
+              const isHome = pathName === "/"
+              return (
+                <>
+                  {
+                    isCurrent ? (
+                      <div className="text-xl py-1 cursor-pointer bg-muted w-full">{item.label}</div>
+                    ) : (
+                      <Link key={item.href} href={item.href}>
+                        <div className="text-xl py-1 cursor-pointer w-full">{item.label}</div>
+                      </Link>
+                    )
+                  }
+                </>
+              )
+            })}
 						{/* <div className="flex items-center justify-center space-x-2">
 							<Button
 								variant="outline"

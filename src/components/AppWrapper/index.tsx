@@ -8,7 +8,7 @@ import { ViewportProvider } from "@/contexts/viewportContext";
 const AppWrapper = () => {
 	return (
 		<ViewportProvider>
-			<main className="flex flex-col gap-16">
+			<main className="flex flex-col gap-16 mx-auto">
 				<Introduction />
 				<HighlightMenus />
 				<SliderSwiper />

@@ -1,6 +1,5 @@
 import { INTRO_IMAGE } from "@/images";
 import Link from "../Link";
-import { Button } from "../ui/button";
 
 export default function Introduction() {
 	return (
@@ -18,23 +17,19 @@ export default function Introduction() {
 					Quán ăn địa phương chiêu đãi hương vị của xứ Bến Tre với món
 					mì truyền thống đậm vị kết hợp cùng với nước lèo thơm ngon.
 				</div>
-				<div className="flex gap-4 sm:justify-center xs:justify-center">
-					<Link href="/contact">
-						<Button className="min-h-[35px] px-12 py-2 rounded-[50px] text-white text-center text-md bg-orange-500">
-							Đặt bàn ngay
-						</Button>
+				<div className="flex gap-4 sm:justify-center xs:justify-center xs:flex-col max-w-[100vw] relative">
+					<Link href="/contact" className="">
+            <div className="min-h-[35px] px-12 py-4 rounded-[50px] text-white text-center text-md bg-orange-500 xs:max-w-[90vw]">Đặt bàn ngay</div>
 					</Link>
 					<Link href="/menus">
-						<Button className="min-h-[35px] px-12 py-2 rounded-[50px] text-white text-center text-md bg-green-500">
-							Tham khảo thực đơn
-						</Button>
+            <div className="min-h-[35px] px-12 py-4 rounded-[50px] text-white text-center text-md bg-green-500 xs:max-w-[90vw]">Tham khảo thực đơn</div>
 					</Link>
 				</div>
 			</div>
 			<div className="col-span-1 xs:col-span-2 sm:col-span-2 flex justify-center items-center relative max-h-max select-none">
 				<img
 					src={INTRO_IMAGE}
-					className="h-[450px] select-none"
+					className="h-[450px] xs:h-full select-none"
 					alt="intro image"
 				/>
 			</div>

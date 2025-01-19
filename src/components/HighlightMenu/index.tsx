@@ -70,10 +70,10 @@ export default function HighlightMenus() {
 	return (
 		<div className="flex flex-col items-center justify-center h-full text-white text-center gap-8">
 			<div>
-				<h1 className="text-6xl font-bold mb-4 bg-gradient-to-b from-gradient-start via-gradient-middle to-gradient-end bg-clip-text text-transparent">
+				<h1 className="text-6xl xs:text-5xl font-bold mb-4 bg-gradient-to-b from-gradient-start via-gradient-middle to-gradient-end bg-clip-text text-transparent">
 					Món ăn đặc trưng
 				</h1>
-				<span className="text-xl">
+				<span className="text-lg">
 					Những món ăn ưa chuộng bởi người việt
 				</span>
 			</div>

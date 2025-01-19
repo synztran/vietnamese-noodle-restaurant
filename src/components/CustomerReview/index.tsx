@@ -24,7 +24,7 @@ const CustomerReviews = () => {
 
 	return (
 		<div className="flex flex-col gap-4 mb-[3rem]">
-			<h2 className="text-3xl font-bold">
+			<h2 className="text-3xl xs:text-2xl font-bold xs:text-muted xs:text-center">
 				Khách hàng nói gì về chúng tôi
 			</h2>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-6">

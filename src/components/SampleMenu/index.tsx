@@ -70,7 +70,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 	}
 	return (
 		<div
-			className="page !grid grid-rows-12 grid-flow-col transition-all"
+			className="page !grid grid-rows-12 grid-flow-col transition-all rouned-md"
 			ref={ref}>
 			<div className="grid row-span-2">
 				<p
@@ -79,11 +79,11 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 					{props.text}
 				</p>
 			</div>
-			<div className="grid row-span-8">{props.children}</div>
+			<div className="grid row-span-8 overflow-hidden overflow-y-auto mb-4">{props.children}</div>
 			<div className="grid row-span-2">
 				<div className="grid grid-cols-[1fr,1fr] grid-flow-col">
-					<div className="grid row-span-1">
-						<p className="text-black text-3xl xs:text-xl font-bold text-center whitespace-normal">
+					<div className="grid row-span-1 px-3">
+						<p className="text-black text-3xl xs:text-lg font-bold text-start whitespace-normal">
 							Trang&nbsp;{props.number} &nbsp;|&nbsp; Page&nbsp;
 							{props.number}
 						</p>
@@ -161,7 +161,7 @@ const Menu = ({
 	currencyRate: number;
 }) => {
 	return (
-		<div className="flex justify-between px-4">
+		<div className="flex justify-between px-3">
 			<div className="flex flex-col">
 				<div className="text-left text-xl xs:text-md font-bold flex items-center">
 					{item.name}
@@ -204,17 +204,16 @@ const Menu = ({
           ))} */}
 				</div>
 			</div>
-			<div className="flex gap-1">
+			<div className="flex">
 				{item.price && item.price > 0 ? (
-					<div>
+					<div className="flex flex-col items-end gap-1">
 						<span
-							className="text-lg xs:text-sm rounded-md max-h-max p-0.5 text-white font-bold"
+							className="text-lg xs:text-sm rounded-md max-h-max px-1 py-0.5 text-white font-bold"
 							style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
 							{formatCurrency(item.price)}
 						</span>
-						<span className="text-lg xs:text-sm p-0.5">/</span>
 						<span
-							className="text-lg xs:text-sm rounded-md max-h-max p-0.5 text-white font-bold"
+							className="text-lg xs:text-sm rounded-md max-h-max px-1 py-0.5 text-white font-bold"
 							style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
 							{formatCurrency(item.price, "en-US", currencyRate)}
 						</span>

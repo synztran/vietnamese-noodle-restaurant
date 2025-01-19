@@ -1,9 +1,13 @@
 import { ViewportProvider } from "@/contexts/viewportContext";
 import { Navigator } from "../Navigator/navigator";
 
-const LayoutWrapper = () => {
+interface IProps {
+  pathName: string
+}
+
+const LayoutWrapper = (props: IProps) => {
 	return (
-		<ViewportProvider>
+		<ViewportProvider pathName={props.pathName}>
 			<Navigator />
 		</ViewportProvider>
 	);
