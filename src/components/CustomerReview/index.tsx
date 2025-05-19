@@ -24,9 +24,13 @@ const CustomerReviews = () => {
 
 	return (
 		<div className="flex flex-col gap-4 mb-[3rem]">
-			<h2 className="text-3xl xs:text-2xl font-bold xs:text-muted xs:text-center">
+			<h2 className="text-3xl xs:text-3xl font-bold xs:text-center bg-gradient-to-r from-[#fcab01] to-[#fe214f] text-transparent bg-clip-text">
 				Khách hàng nói gì về chúng tôi
 			</h2>
+			<div className="w-[3rem] h-1 bg-gray-200 mx-auto rounded-full" />
+			<div className="text-center text-sm text-white px-8">
+				Lắng nghe những lời từ khách hàng về trải nghiệm tại Hủ tiếu Ngọc Mai, thay vì chỉ tin vào lời chúng tôi.
+			</div>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 				{customerReviews.map((review, index) => (
 					<Card key={index} className="bg-[rgba(255,255,255,0.1)]">

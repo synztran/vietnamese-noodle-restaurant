@@ -4,6 +4,7 @@ import HighlightMenus from "@/components/HighlightMenu";
 import Introduction from "@/components/Intro";
 import SliderSwiper from "@/components/SliderSwiper";
 import { ViewportProvider } from "@/contexts/viewportContext";
+import ImageBlock from "../ImageBlock";
 
 const AppWrapper = () => {
 	return (
@@ -12,7 +13,8 @@ const AppWrapper = () => {
 				<Introduction />
 				<HighlightMenus />
 				<SliderSwiper />
-				<HeroSection />
+				{/* <HeroSection /> */}
+        <ImageBlock />
 				<CustomerReview />
 			</main>
 		</ViewportProvider>

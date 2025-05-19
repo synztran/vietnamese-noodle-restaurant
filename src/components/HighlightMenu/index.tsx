@@ -1,5 +1,5 @@
 import useMotion from "@/hook/useMotion";
-import { NOODLE_ICON } from "@/images";
+import { HIGH_LIGHT_BANH_CANH, HIGH_LIGHT_HU_TIEU, HIGH_LIGHT_MI_BOT, HIGH_LIGHT_SUI_CAO_NHIEU, NOODLE_ICON } from "@/images";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import Link from "../Link";
@@ -8,22 +8,22 @@ import { Button } from "../ui/button";
 const temp = {
 	upper: [
 		{
-			image: NOODLE_ICON,
+			image: HIGH_LIGHT_HU_TIEU,
 			label: "Hủ tiếu",
 			langLabel: "Vietnamese rice noodle",
 		},
 		{
-			image: NOODLE_ICON,
-			label: "Mì",
+			image: HIGH_LIGHT_MI_BOT,
+			label: "Mì bột",
 			langLabel: "Vietnamse noodle",
 		},
 		{
-			image: NOODLE_ICON,
+			image: HIGH_LIGHT_BANH_CANH,
 			label: "Bánh canh",
 			langLabel: "Vietnamese rice thin noodle",
 		},
 		{
-			image: NOODLE_ICON,
+			image: HIGH_LIGHT_SUI_CAO_NHIEU,
 			label: "Hoành thánh",
 			langLabel: "Wonton",
 		},
@@ -77,19 +77,19 @@ export default function HighlightMenus() {
 					Những món ăn ưa chuộng bởi người việt
 				</span>
 			</div>
-			<div className="grid grid-cols-4 gap-8">
+			<div className="grid grid-cols-4 sm:grid-cols-2 gap-8">
 				{temp.upper.map((item, index) => (
 					<motion.section
 						ref={highLightMenuRef}
 						key={index}
-						className="md:col-span-1 sm:col-span-2 xs:col-span-2 bg-[rgba(255,255,255,0.1)] !rounded-tr-[50px] !rounded-tl-[50px] px-2 pt-2 pb-8 min-h-[300px] justify-between grid grid-rows-2"
+						className="col-span-1 bg-[rgba(255,255,255,0.1)] !rounded-tr-[50px] !rounded-tl-[50px] !rounded-br-[5px] !rounded-bl-[5px]   px-2 pt-2 pb-8 min-h-[300px] justify-between grid grid-rows-2 sm:grid-rows-1 w-full sm:justify-center"
 						{...motionProps}>
 						<img
 							src={item.image}
 							alt={item.label}
 							width={180}
 							height={60}
-							className="row-span-1"
+							className="row-span-1 sm:my-auto rounded-full"
 						/>
 						<div className="row-span-1">
 							<span className="text-black text-2xl font-bold">
