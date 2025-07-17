@@ -20,7 +20,7 @@ export default function SampleMenu(props: {
 	currentPage: string;
 	currencyRate: number;
 }) {
-	const {viewportWidth, isCalculating} = useViewport();
+	const { viewportWidth, isCalculating } = useViewport();
 	const [page, setPage] = useState(Number(props.currentPage) || 1);
 
 	return (
@@ -54,12 +54,12 @@ export default function SampleMenu(props: {
 					<NextArrow page={page} setPage={setPage} />
 				)}
 			</div>
-      {viewportWidth <= 640 && !isCalculating ? (
-        <div className="flex justify-evenly gap-8 mt-2">
-          	<PrevArrow page={page} setPage={setPage} />
-            <NextArrow page={page} setPage={setPage} />
-        </div>
-      ) : null}
+			{viewportWidth <= 640 && !isCalculating ? (
+				<div className="flex justify-evenly gap-8 mt-2">
+					<PrevArrow page={page} setPage={setPage} />
+					<NextArrow page={page} setPage={setPage} />
+				</div>
+			) : null}
 		</div>
 	);
 }
@@ -79,7 +79,9 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 					{props.text}
 				</p>
 			</div>
-			<div className="grid row-span-8 overflow-hidden overflow-y-auto mb-4">{props.children}</div>
+			<div className="grid row-span-8 overflow-hidden overflow-y-auto mb-4">
+				{props.children}
+			</div>
 			<div className="grid row-span-2">
 				<div className="grid grid-cols-[1fr,1fr] grid-flow-col">
 					<div className="grid row-span-1 px-3">
@@ -156,7 +158,7 @@ const Menu = ({
 		tag?: string;
 		vnTag?: string;
 		tagStyle?: string;
-    iconTag?: () => JSX.Element;
+		iconTag?: () => JSX.Element;
 	};
 	currencyRate: number;
 }) => {
@@ -175,10 +177,10 @@ const Menu = ({
 							{item.vnTag}
 						</span>
 					) : null} */}
-          {item.iconTag ? (
+					{item.iconTag ? (
 						<span
 							className={clsx(
-								"text-sm rounded-sm text-white p-1 rotate-6",
+								"text-sm rounded-sm text-white p-1 rotate-6"
 							)}>
 							<item.iconTag />
 						</span>
@@ -210,7 +212,8 @@ const Menu = ({
 						<span
 							className="text-lg xs:text-sm rounded-md max-h-max px-1 py-0.5 text-white font-bold"
 							style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
-							{formatCurrency(item.price)}
+							{/* {formatCurrency(item.price)} */}
+							Liên hệ
 						</span>
 						<span
 							className="text-lg xs:text-sm rounded-md max-h-max px-1 py-0.5 text-white font-bold"
