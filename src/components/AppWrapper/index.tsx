@@ -14,7 +14,7 @@ const AppWrapper = () => {
 				<HighlightMenus />
 				<SliderSwiper />
 				{/* <HeroSection /> */}
-        <ImageBlock />
+        		<ImageBlock />
 				<CustomerReview />
 			</main>
 		</ViewportProvider>

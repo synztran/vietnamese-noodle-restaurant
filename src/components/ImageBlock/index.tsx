@@ -94,10 +94,10 @@ const ImageBlock = () => {
           </div>
 				</div>
 			) : (
-				<>
+				<div className="p-6">
 					<div className="absolute inset-0 bg-black/50" />
 					<div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
-						<h1 className="text-5xl font-bold mb-4">
+						<h1 className="text-5xl font-bold mb-4 text-gray-400">
 							Chào mừng bạn đến quán ăn địa phương
 						</h1>
 						<p className="text-xl mb-8">
@@ -105,7 +105,7 @@ const ImageBlock = () => {
 						</p>
 						<Button className="text-xl">Đặt bàn ngay</Button>
 					</div>
-				</>
+				</div>
 			)}
 		</motion.section>
 	);
