@@ -10,3 +10,8 @@ dist/
 .env.development.local
 .env.test.local
 .env.production.local
+.next/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

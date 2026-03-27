@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary": "#ffffff",
+              "on-background": "#1a1b27",
+              "background": "#fbf8ff",
+              "tertiary-fixed": "#c4edc3",
+              "on-error-container": "#93000a",
+              "surface-container-high": "#e8e6f9",
+              "on-secondary-container": "#684000",
+              "surface-bright": "#fbf8ff",
+              "secondary-container": "#fea61c",
+              "on-tertiary-fixed-variant": "#2c4e2f",
+              "primary-fixed-dim": "#ffb4ac",
+              "on-secondary-fixed-variant": "#653e00",
+              "on-secondary": "#ffffff",
+              "surface": "#fbf8ff",
+              "on-primary-container": "#ffb3ac",
+              "surface-container-low": "#f4f2ff",
+              "on-error": "#ffffff",
+              "surface-variant": "#e2e1f3",
+              "on-secondary-fixed": "#2a1700",
+              "surface-container-highest": "#e2e1f3",
+              "surface-dim": "#d9d8ea",
+              "tertiary": "#214325",
+              "secondary": "#855300",
+              "on-tertiary-fixed": "#002108",
+              "error-container": "#ffdad6",
+              "outline": "#8d706d",
+              "on-tertiary-container": "#a9d1a8",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ffddb8",
+              "on-tertiary": "#ffffff",
+              "primary-fixed": "#ffdad6",
+              "inverse-primary": "#ffb4ac",
+              "surface-tint": "#b22a27",
+              "tertiary-container": "#385b3b",
+              "error": "#ba1a1a",
+              "secondary-fixed-dim": "#ffb95f",
+              "on-surface": "#1a1b27",
+              "tertiary-fixed-dim": "#a9d1a8",
+              "on-primary-fixed": "#410002",
+              "surface-container": "#edecfe",
+              "on-surface-variant": "#59413e",
+              "inverse-surface": "#2e2f3d",
+              "primary-container": "#a11d1d",
+              "on-primary-fixed-variant": "#900d13",
+              "primary": "#7e000a",
+              "outline-variant": "#e1bebb",
+              "inverse-on-surface": "#f1efff"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Work Sans"],
+              "label": ["Work Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .lacquer-gradient {
+            background: radial-gradient(circle at top left, #a11d1d 0%, #7e000a 100%);
+        }
+        .silk-blur {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .text-shadow-sm {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-stone-50/80 backdrop-blur-xl shadow-sm shadow-red-900/5 flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-red-900" data-icon="menu">menu</span>
+<h1 class="font-serif italic text-red-900 text-xl">Hủ Tiếu Archive</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-stone-500 hover:opacity-80 transition-opacity active:scale-95 duration-200" data-icon="search">search</span>
+<span class="material-symbols-outlined text-stone-500 hover:opacity-80 transition-opacity active:scale-95 duration-200" data-icon="shopping_bag">shopping_bag</span>
+</div>
+</header>
+<main class="pt-16 pb-28">
+<!-- Hero: Crafting Heritage -->
+<section class="relative w-full h-[618px] overflow-hidden">
+<div class="absolute inset-0 lacquer-gradient opacity-90"></div>
+<img alt="Crafting Noodle Heritage" class="w-full h-full object-cover mix-blend-overlay" data-alt="Cinematic close-up of steam rising from a bowl of artisanal Vietnamese noodles, warm golden lighting, dark wood background, moody atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGZSiSgYIQAljXDGXDQ6_gc732CpTCcuzVbuMHZtM3b0h-BJlKd73uJcxX0eMskJkDLUXJrZX7dC07OEQ2NblCzqUhxR3Vhit3JZ21w7UGSohV5aHP2Pd16qjBpVeYCtU-zWt4iwYuKw0MNdriUNTqrfHkMRA5LQh0kiYUByOfyy5OiT8olLyKAiY7feGhH3bbKGpANI5DSazmrPYmVVI0_J2F4n99w26ml1v_hv3IIrdLfx7ppHabPEkpNH632eJVhPSpgHBltbdA"/>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+<span class="text-secondary-fixed-dim font-label uppercase tracking-[0.2em] text-xs mb-4">Ben Tre Since 1954</span>
+<h2 class="font-headline text-5xl md:text-7xl text-on-primary font-bold tracking-tight mb-6">Crafting Heritage</h2>
+<div class="flex gap-4">
+<button class="bg-primary hover:opacity-90 transition-opacity px-8 py-3 rounded-xl text-on-primary font-medium flex items-center gap-2">
+<span>Taste the Tradition</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+<span class="text-on-primary/60 text-[10px] uppercase tracking-widest font-bold">Scroll to Explore</span>
+<div class="w-[1px] h-12 bg-gradient-to-b from-on-primary/60 to-transparent"></div>
+</div>
+</section>
+<!-- Quick Links: Floating Navigation Shell -->
+<section class="relative -mt-12 z-10 px-6">
+<div class="max-w-4xl mx-auto grid grid-cols-3 gap-3 bg-surface-container-lowest/80 silk-blur p-3 rounded-2xl shadow-xl shadow-black/5">
+<a class="flex flex-col items-center justify-center py-4 rounded-xl hover:bg-stone-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-secondary mb-1 group-hover:scale-110 transition-transform" data-icon="history_edu">history_edu</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">History</span>
+</a>
+<a class="flex flex-col items-center justify-center py-4 rounded-xl hover:bg-stone-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-secondary mb-1 group-hover:scale-110 transition-transform" data-icon="restaurant">restaurant</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Signature</span>
+</a>
+<a class="flex flex-col items-center justify-center py-4 rounded-xl hover:bg-stone-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-secondary mb-1 group-hover:scale-110 transition-transform" data-icon="stars">stars</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Reviews</span>
+</a>
+</div>
+</section>
+<!-- Signature Flavors: Bento Grid -->
+<section class="mt-20 px-6 max-w-7xl mx-auto">
+<div class="mb-12 flex items-end justify-between">
+<div class="max-w-lg">
+<h3 class="font-headline text-3xl text-primary font-bold mb-2">Signature Flavors</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Each bowl is a chapter of Ben Tre’s culinary archive, prepared with the patience of generations.</p>
+</div>
+<button class="text-secondary font-bold font-label text-xs uppercase tracking-widest flex items-center gap-1 group">
+                    View Archive <span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
+<!-- Main Feature -->
+<div class="md:col-span-7 relative group overflow-hidden rounded-full h-96 md:h-full">
+<img alt="Classic Hủ Tiếu" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A premium bowl of Hủ Tiếu Nam Vang with prawns, pork, and fresh herbs, arranged artfully on a rustic ceramic plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHOHDb4VfzDByMSiJQrgI5lFAZEmycW1jZlKAKyDs3ZW8G6fgwi323WbEELoiOTvqTR1_K7gGRAUOmemKzIOzGxI-UIVxKuOg-WfFtAQhJYsNx31uYqgqza_8xyFZcqSndKlsMzVtnIgCebMsfd3RX8VCFhFOgvpc2TU1BKyASPlFxSGp0hAWfatVxsLbA00Bghkr5NrShOUXgKrXnUR-i00nDtLcfAlfNf-s887iXvSKNYFBHPdeXiRcEcu1lBwmmoedac4xn01Kv"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-2 py-1 rounded mb-3 inline-block tracking-tighter">Archival Original</span>
+<h4 class="text-on-primary font-headline text-3xl font-bold mb-2">Hủ Tiếu Nam Vang Classic</h4>
+<p class="text-on-primary/80 text-sm max-w-sm mb-4">Dry or soup-based, our foundation recipe refined over seven decades.</p>
+<button class="text-on-primary flex items-center gap-2 group/btn">
+<span class="font-label text-xs font-bold uppercase tracking-widest">Discover Details</span>
+<span class="material-symbols-outlined text-lg group-hover/btn:translate-x-1 transition-transform" data-icon="east">east</span>
+</button>
+</div>
+</div>
+<!-- Secondary Items Stack -->
+<div class="md:col-span-5 flex flex-col gap-6">
+<div class="flex-1 relative group overflow-hidden rounded-xl bg-surface-container-low">
+<div class="flex h-full">
+<div class="w-1/2 p-6 flex flex-col justify-center">
+<h4 class="font-headline text-xl text-primary font-bold mb-2">Ben Tre Seafood</h4>
+<span class="text-secondary font-bold text-sm">$12.50</span>
+</div>
+<div class="w-1/2 relative overflow-hidden">
+<img alt="Seafood Specialty" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Fresh river prawns and squid in a light, aromatic broth with silky rice noodles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKmzmjGoKhQ-ILIyWIivaaGa-mWmSgKbJwbmZ8Oqre31B_rXV0ap2K-0QiflMFFuAq7PkbeYUwguIaXhdsMF5DqAcTeXsb73-NqDUWDJpUIOQB8Ypl_V_BWqQ9eTpuIr4FcqUjYc0C3wP2cvGWEBMK6G2AKzYhUcWmogdKkL_e7SQ3legnyIZOm6GQPDnlIVoIM4utI4dUXta6-lDUUK2c-FiHNTg2V2dAOhNs1dh1UdSQmOk9AFNUcDXC1sXc_7DngvVOpfaykfcK"/>
+</div>
+</div>
+</div>
+<div class="flex-1 relative group overflow-hidden rounded-xl bg-surface-container-low">
+<div class="flex h-full">
+<div class="w-1/2 p-6 flex flex-col justify-center">
+<h4 class="font-headline text-xl text-primary font-bold mb-2">Dry Heritage Noodle</h4>
+<span class="text-secondary font-bold text-sm">$10.95</span>
+</div>
+<div class="w-1/2 relative overflow-hidden">
+<img alt="Dry Noodle Style" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Dry tossed noodles with intense dark soy sauce and roasted garlic, topped with sliced pork" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDczx7URyaH_O8IyDqlSDm44vC_Jt9Tq2Ttn7P1tLE00iiSgcS_Z02rW3HNAfjlE3EPLLGUU0P6Qo28ks7NRSzyoQcPjI93PMNV8tYRckHeJor66KGqvcw4mYhMAn2rqjqv48KEodq4h42nyUBIO3ByK8cYdyjC3yThfk7cls_kN0vh0oK7RUb23k-uv_lFhNibHglrMQ62hoNxlX9-gKMRwnbB-HqSdr37NUNct1WDZkI3qwFMUO6-JdPjfBOk6Dnwwja0Cny6iWy"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trusted by Ben Tre: Social Proof -->
+<section class="mt-32 px-6 py-20 bg-stone-100/50">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-4">
+<div class="flex text-secondary-container">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star_half" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<span class="font-bold text-on-surface">4.8/5.0</span>
+</div>
+<h3 class="font-headline text-4xl text-primary font-bold mb-6">Trusted by the People of Ben Tre</h3>
+<p class="text-on-surface-variant text-lg mb-8 leading-relaxed italic">"The only place where the broth truly tastes like my grandmother's kitchen. A living piece of our history."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img alt="Featured Reviewer" class="w-full h-full object-cover" data-alt="Portrait of an elder Vietnamese gentleman smiling warmly in a sunlit courtyard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU3FTKSJCslO1GFI0uw7-4gKku5fptjUNWPr3hzk2sWY7Te2BhUsRjD3vEZN7R-oFvV6D1S1E23f4rC_DwUQlNPv-8hlBFQzc1Yxj5E0A483mXlQYam4kmge6wSbLkx1K5JUhvSsXCRW3AG7vFJ81GCN-qmw_uR3RH1k9PSIDQ6BzqyrwXOw8aTiO2uQSRVk16NSRJu1KZQRZ6XOv0RueCguZKwNhJAeGd48ZS4zVMbGY7SAb6czaStyHbWax0nfNnBgxJri2rOyO6"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Minh Hoang</p>
+<p class="text-xs text-on-surface-variant uppercase tracking-widest font-medium">Local Historian</p>
+</div>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm text-center">
+<p class="text-4xl font-headline font-bold text-primary mb-2">12k+</p>
+<p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Bowls Monthly</p>
+</div>
+<div class="bg-primary p-8 rounded-2xl shadow-sm text-center text-on-primary">
+<p class="text-4xl font-headline font-bold mb-2">4.9</p>
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-80">Google Rating</p>
+</div>
+<div class="bg-secondary p-8 rounded-2xl shadow-sm text-center text-on-secondary col-span-2">
+<p class="text-xl font-headline font-bold mb-2">Established 1954</p>
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-80">Generations of Craft</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Visit the Archive: Info & Map -->
+<section class="mt-32 px-6 max-w-7xl mx-auto mb-12">
+<div class="rounded-3xl overflow-hidden bg-stone-900 flex flex-col md:flex-row h-auto md:min-h-[500px]">
+<div class="flex-1 p-12 flex flex-col justify-center">
+<h3 class="font-headline text-3xl text-secondary-fixed-dim font-bold mb-6">Visit the Archive</h3>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="location_on">location_on</span>
+<div>
+<p class="text-stone-100 font-bold mb-1">128 Ben Tre Riverfront</p>
+<p class="text-stone-400 text-sm">Ward 4, Ben Tre City, Vietnam</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="schedule">schedule</span>
+<div>
+<p class="text-stone-100 font-bold mb-1">Archive Hours</p>
+<div class="grid grid-cols-2 gap-x-8 text-sm text-stone-400">
+<span>Mon - Fri</span>
+<span>06:00 - 21:00</span>
+<span>Sat - Sun</span>
+<span>05:30 - 22:00</span>
+</div>
+</div>
+</div>
+</div>
+<button class="mt-10 bg-secondary hover:opacity-90 transition-opacity px-8 py-4 rounded-xl text-on-secondary font-bold uppercase tracking-widest text-xs w-fit">
+                        Get Directions
+                    </button>
+</div>
+<div class="flex-1 relative min-h-[300px] grayscale brightness-75 hover:grayscale-0 transition-all duration-700">
+<img alt="Map of Ben Tre" class="absolute inset-0 w-full h-full object-cover" data-alt="A stylized overhead map view of Ben Tre city with the river highlighted in a golden tone" data-location="Ben Tre, Vietnam" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaChnFpVpbQmCLbKeAG8zlcxcivhuacBEkY84U8Hi-fp5BtZoZk_UgrIu1eWo_DnfWvz4rPsNUOPcvZ8-nQNBddcRSdOR8rCH29iS1CFj3UrEzKCrJiI1Lc6RCnNfik59QPALFIBDbF6M-d3l46ZKWNu5pnyD-O0_UyywC7PRTVKIUdNrZKqGbATrn_b40tkaE8hlafuMXvfiUG4ubfApSH9L2cxyA0BSGOQSMGc7UTvBneXusPuq1PERqGlI9HKCUIvdpvM--zk1Y"/>
+<div class="absolute inset-0 bg-primary/20 pointer-events-none"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-stone-50/90 backdrop-blur-2xl border-t border-stone-200/10 shadow-[0_-4px_24px_rgba(0,0,0,0.04)] z-50 rounded-t-3xl">
+<a class="flex flex-col items-center justify-center text-amber-600 bg-stone-100 rounded-xl px-3 py-1 active:scale-90 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-sans uppercase tracking-widest text-[10px] font-bold">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-500 opacity-60 hover:text-amber-600 transition-colors active:scale-90 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-sans uppercase tracking-widest text-[10px] font-bold">Order</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-500 opacity-60 hover:text-amber-600 transition-colors active:scale-90 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="history">history</span>
+<span class="font-sans uppercase tracking-widest text-[10px] font-bold">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-500 opacity-60 hover:text-amber-600 transition-colors active:scale-90 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-sans uppercase tracking-widest text-[10px] font-bold">Settings</span>
+</a>
+</nav>
+</body></html>

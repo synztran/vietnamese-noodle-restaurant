@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Work+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#fbf8ff",
+              "secondary-fixed": "#ffddb8",
+              "on-tertiary-fixed": "#002108",
+              "on-secondary-fixed": "#2a1700",
+              "on-tertiary-fixed-variant": "#2c4e2f",
+              "on-primary-fixed": "#410002",
+              "tertiary": "#214325",
+              "on-primary-container": "#ffb3ac",
+              "tertiary-fixed": "#c4edc3",
+              "on-primary-fixed-variant": "#900d13",
+              "secondary": "#855300",
+              "surface-dim": "#d9d8ea",
+              "on-surface": "#1a1b27",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#e8e6f9",
+              "tertiary-container": "#385b3b",
+              "surface-bright": "#fbf8ff",
+              "primary-container": "#a11d1d",
+              "primary-fixed-dim": "#ffb4ac",
+              "on-secondary-fixed-variant": "#653e00",
+              "tertiary-fixed-dim": "#a9d1a8",
+              "secondary-fixed-dim": "#ffb95f",
+              "surface-container": "#edecfe",
+              "primary": "#7e000a",
+              "on-tertiary": "#ffffff",
+              "inverse-primary": "#ffb4ac",
+              "on-tertiary-container": "#a9d1a8",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#f1efff",
+              "surface-tint": "#b22a27",
+              "secondary-container": "#fea61c",
+              "on-surface-variant": "#59413e",
+              "on-error": "#ffffff",
+              "surface-variant": "#e2e1f3",
+              "primary-fixed": "#ffdad6",
+              "on-secondary": "#ffffff",
+              "inverse-surface": "#2e2f3d",
+              "surface-container-low": "#f4f2ff",
+              "surface-container-highest": "#e2e1f3",
+              "on-background": "#1a1b27",
+              "outline": "#8d706d",
+              "on-error-container": "#93000a",
+              "outline-variant": "#e1bebb",
+              "background": "#fbf8ff",
+              "on-secondary-container": "#684000"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Work Sans"],
+              "label": ["Work Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Work Sans', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        .lacquer-gradient {
+            background: radial-gradient(circle at top left, #a11d1d 0%, #7e000a 100%);
+        }
+        .silk-blur {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .asymmetric-overlap {
+            transform: translate(12px, -8px);
+        }
+        .heritage-scroll-indicator::after {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            background-color: #855300;
+            border-radius: 50%;
+            margin: 4px auto 0;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface selection:bg-secondary-fixed">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-stone-50/90 dark:bg-stone-900/90 backdrop-blur-md shadow-sm shadow-red-900/5 h-16 flex justify-between items-center px-4">
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-red-900 dark:text-red-500 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors p-2 rounded-full active:scale-95 duration-200" data-icon="menu">menu</button>
+<h1 class="font-serif font-bold tracking-tight text-xl italic text-red-900 dark:text-red-500">Hủ Tiếu Archive</h1>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-stone-200 overflow-hidden ring-2 ring-primary/10">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a professional kitchen manager wearing a clean chef uniform in a high-end restaurant kitchen setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgPoxHSnuKO_gt0e_SAthXmK2FB_CvxjVhuBnQpFfSNFlbuEdPdllK3e4S5c7wk-1Srr9d3xsveuGYvPdZapBThSeCiMLJeklsbvx4Ru4X3hvpdtARY8vxp1Kqv8djeTwrD3VKqsgWwUs8qkq0YtpUop-DE_kBa-qFx1nmsz2kdPm0DGgt9WwC8WLXidCtrSJmTRUfNfeEyqqRD3OvQEtvTbiwhY7q2afTn3_B7qb5IAeOgAsj6i48T29EgeQN4lTZJs5cmU0lPSBf"/>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 bg-stone-200/50 dark:bg-stone-800/50 h-[1px] w-full"></div>
+</header>
+<main class="pt-20 pb-28 px-4 max-w-2xl mx-auto space-y-8">
+<!-- Top Summary: Bento Grid Style -->
+<section class="grid grid-cols-2 gap-4">
+<div class="col-span-2 bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between overflow-hidden relative border-l-4 border-primary">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant font-medium">Daily Revenue</p>
+<h2 class="text-3xl font-headline font-bold text-primary">12,450,000đ</h2>
+</div>
+<div class="bg-secondary-fixed px-3 py-1 rounded-full text-[10px] font-bold text-on-secondary-fixed uppercase tracking-tighter">Target: 85%</div>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%] rounded-full"></div>
+</div>
+<p class="mt-3 text-[11px] font-body text-on-surface-variant italic">Monday, Oct 23rd • Ben Tre Station #1</p>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-primary/5 text-8xl pointer-events-none" data-icon="receipt_long">receipt_long</span>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="restaurant_menu">restaurant_menu</span>
+</div>
+<div>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Ordering</p>
+<p class="text-2xl font-headline font-bold text-on-surface">14</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Serviced</p>
+<p class="text-2xl font-headline font-bold text-on-surface">128</p>
+</div>
+</div>
+</section>
+<!-- Category Scroll: The "Heritage Scroll" -->
+<nav class="flex gap-8 overflow-x-auto no-scrollbar pb-2">
+<div class="flex flex-col items-center flex-shrink-0">
+<span class="font-headline font-bold text-primary text-lg">All Orders</span>
+<div class="w-1.5 h-1.5 bg-secondary rounded-full mt-1"></div>
+</div>
+<div class="flex flex-col items-center flex-shrink-0 opacity-40">
+<span class="font-headline font-bold text-on-surface text-lg">VIP Tables</span>
+</div>
+<div class="flex flex-col items-center flex-shrink-0 opacity-40">
+<span class="font-headline font-bold text-on-surface text-lg">Takeaway</span>
+</div>
+<div class="flex flex-col items-center flex-shrink-0 opacity-40">
+<span class="font-headline font-bold text-on-surface text-lg">Delivery</span>
+</div>
+</nav>
+<!-- Live Order Feed -->
+<section class="space-y-4">
+<!-- URGENT ALERT CARD -->
+<div class="bg-error-container/30 border-2 border-error/20 p-5 rounded-xl relative overflow-hidden ring-4 ring-error/5 animate-pulse">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<span class="text-2xl font-headline font-extrabold text-error">#405</span>
+<span class="bg-error text-on-error text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-widest">Delayed</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-error font-bold text-sm">22 min</span>
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+</div>
+<div class="mt-4 space-y-1">
+<p class="font-body text-on-surface-variant text-sm">2x Hủ Tiếu Nam Vang (Đặc Biệt)</p>
+<p class="font-body text-on-surface-variant text-sm">1x Trà Đá</p>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<p class="font-headline font-bold text-on-surface">185,000đ</p>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label text-xs font-bold uppercase tracking-wider active:scale-95 transition-transform">Expedite</button>
+</div>
+</div>
+<!-- REGULAR CARD: WAITING -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<span class="text-2xl font-headline font-extrabold text-on-surface">#408</span>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-amber-100/50 text-amber-800 rounded-full border border-amber-200">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Waiting</span>
+</div>
+</div>
+<span class="text-on-surface-variant font-medium text-xs">08 min</span>
+</div>
+<div class="mt-4 grid grid-cols-3 gap-4">
+<div class="col-span-2 space-y-1">
+<p class="font-body text-on-surface text-sm font-medium">1x Hủ Tiếu Khô Mỹ Tho</p>
+<p class="font-body text-on-surface-variant text-xs">No cilantro, extra shallots</p>
+</div>
+<div class="flex justify-end">
+<p class="font-headline font-bold text-on-surface">65,000đ</p>
+</div>
+</div>
+</div>
+<!-- REGULAR CARD: SERVED -->
+<div class="bg-surface-container-lowest/60 p-5 rounded-xl opacity-80">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<span class="text-2xl font-headline font-extrabold text-on-surface-variant">#402</span>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-emerald-100/50 text-emerald-800 rounded-full border border-emerald-200">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Served</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-emerald-600" data-icon="done_all">done_all</span>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<p class="font-body text-on-surface-variant text-sm italic">3 items • Total processed</p>
+<p class="font-headline font-bold text-on-surface-variant">245,000đ</p>
+</div>
+</div>
+<!-- REGULAR CARD: CANCELED -->
+<div class="bg-surface-container-low p-5 rounded-xl border border-dashed border-outline-variant/30">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<span class="text-2xl font-headline font-extrabold text-stone-400 line-through">#398</span>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-stone-200/50 text-stone-500 rounded-full">
+<span class="text-[10px] font-bold uppercase tracking-widest">Canceled</span>
+</div>
+</div>
+<span class="text-stone-400 font-medium text-xs">14:15</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-6 pb-6 pt-3 bg-stone-50/95 dark:bg-stone-950/95 backdrop-blur-xl shadow-[0_-4px_24px_rgba(126,0,10,0.06)] rounded-t-3xl z-50">
+<a class="flex flex-col items-center justify-center text-stone-500 dark:text-stone-500 hover:text-red-700 transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-red-800 dark:text-red-400 bg-amber-100/50 dark:bg-amber-900/20 rounded-xl px-4 py-1 transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-500 dark:text-stone-500 hover:text-red-700 transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-500 dark:text-stone-500 hover:text-red-700 transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium mt-1">Settings</span>
+</a>
+</nav>
+<!-- Floating Action Button: Contextual -->
+<button class="fixed right-6 bottom-24 w-14 h-14 rounded-full lacquer-gradient text-on-primary shadow-xl shadow-primary/20 flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

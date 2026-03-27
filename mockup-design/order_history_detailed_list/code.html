@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Work+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-variant": "#e2e1f3",
+              "surface": "#fbf8ff",
+              "on-background": "#1a1b27",
+              "error-container": "#ffdad6",
+              "surface-container-high": "#e8e6f9",
+              "inverse-primary": "#ffb4ac",
+              "surface-container": "#edecfe",
+              "primary-fixed": "#ffdad6",
+              "tertiary-fixed": "#c4edc3",
+              "secondary-fixed-dim": "#ffb95f",
+              "tertiary": "#214325",
+              "primary-container": "#a11d1d",
+              "tertiary-container": "#385b3b",
+              "outline": "#8d706d",
+              "on-tertiary": "#ffffff",
+              "primary": "#7e000a",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e2e1f3",
+              "error": "#ba1a1a",
+              "inverse-on-surface": "#f1efff",
+              "secondary-container": "#fea61c",
+              "on-primary-fixed": "#410002",
+              "on-tertiary-fixed": "#002108",
+              "outline-variant": "#e1bebb",
+              "on-secondary-fixed": "#2a1700",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed-variant": "#2c4e2f",
+              "secondary-fixed": "#ffddb8",
+              "on-secondary-container": "#684000",
+              "on-primary-fixed-variant": "#900d13",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#a9d1a8",
+              "primary-fixed-dim": "#ffb4ac",
+              "background": "#fbf8ff",
+              "on-primary-container": "#ffb3ac",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f4f2ff",
+              "surface-bright": "#fbf8ff",
+              "on-surface": "#1a1b27",
+              "secondary": "#855300",
+              "surface-tint": "#b22a27",
+              "on-surface-variant": "#59413e",
+              "tertiary-fixed-dim": "#a9d1a8",
+              "surface-dim": "#d9d8ea",
+              "on-error-container": "#93000a",
+              "inverse-surface": "#2e2f3d",
+              "on-secondary-fixed-variant": "#653e00"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Work Sans"],
+              "label": ["Work Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .heritage-scroll::-webkit-scrollbar { display: none; }
+      .heritage-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col max-w-md mx-auto relative shadow-2xl">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-[#fbf8ff] dark:bg-[#1a1a1a]">
+<div class="flex items-center justify-between px-4 h-16 w-full max-w-md mx-auto">
+<button class="active:scale-95 transition-transform hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[#7e000a] dark:text-[#ffb4ab]">arrow_back</span>
+</button>
+<h1 class="font-['Noto_Serif'] font-bold tracking-tight text-xl text-[#7e000a] dark:text-[#ffb4ab]">Order History</h1>
+<button class="active:scale-95 transition-transform hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[#7e000a] dark:text-[#ffb4ab]">more_vert</span>
+</button>
+</div>
+<div class="bg-[#d9d8ea] dark:bg-[#333] h-[1px] w-full opacity-20"></div>
+</header>
+<main class="flex-1 pb-32 px-4 pt-4">
+<!-- Date Range Filter -->
+<section class="mb-6">
+<div class="bg-surface-container-low p-4 rounded-full border-b-2 border-primary/20 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<div>
+<p class="text-[10px] font-label font-medium uppercase tracking-[0.1em] text-on-surface-variant">Selected Period</p>
+<p class="font-headline font-bold text-sm text-on-surface">Oct 1, 2023 - Oct 24, 2023</p>
+</div>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-secondary">tune</span>
+</button>
+</div>
+</section>
+<!-- Summary Cards (Bento Style) -->
+<section class="grid grid-cols-2 gap-3 mb-8">
+<div class="bg-primary p-5 rounded-xl flex flex-col justify-between aspect-square relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</div>
+<span class="material-symbols-outlined text-on-primary/70" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<div>
+<h3 class="text-on-primary/80 font-label text-[10px] uppercase tracking-widest">Total Orders</h3>
+<p class="text-on-primary font-headline text-2xl font-bold">1,240</p>
+</div>
+</div>
+<div class="bg-surface-container-highest p-5 rounded-xl flex flex-col justify-between aspect-square border-l-4 border-secondary">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">payments</span>
+<div>
+<h3 class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest">Total Revenue</h3>
+<p class="text-primary font-headline text-2xl font-bold">85.5M <span class="text-xs font-label">VND</span></p>
+</div>
+</div>
+</section>
+<!-- Order History List -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline font-bold text-lg text-primary">Recent Archive</h2>
+<span class="text-[10px] font-label font-bold text-secondary uppercase tracking-widest">Live Updates</span>
+</div>
+<div class="space-y-4">
+<!-- Order Item 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] group active:scale-[0.98] transition-all border-b border-outline-variant/10">
+<div class="flex justify-between items-start mb-3">
+<div>
+<p class="font-headline font-bold text-on-surface group-hover:text-primary transition-colors">#BT-8890</p>
+<p class="text-[11px] text-on-surface-variant font-medium mt-0.5">Oct 24, 12:45 PM</p>
+</div>
+<span class="bg-tertiary-container/20 text-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">COMPLETED</span>
+</div>
+<div class="flex items-end justify-between pt-3 border-t border-surface-container-high">
+<div class="flex flex-col gap-1 max-w-[60%]">
+<p class="font-body font-semibold text-sm text-on-surface">1x Hủ Tiếu Nam Vang</p>
+<p class="font-body text-[11px] text-on-surface-variant">+ Extra Quail Eggs</p>
+<p class="font-body italic text-[10px] text-primary/70 mt-0.5">"No cilantro please"</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-on-surface-variant uppercase mb-1">3 items</p>
+<p class="font-headline font-bold text-secondary">185,000 VND</p>
+</div>
+</div>
+<!-- Detailed View Hint -->
+</div>
+<!-- Order Item 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] group active:scale-[0.98] transition-all border-b border-outline-variant/10">
+<div class="flex justify-between items-start mb-3">
+<div>
+<p class="font-headline font-bold text-on-surface group-hover:text-primary transition-colors">#BT-8889</p>
+<p class="text-[11px] text-on-surface-variant font-medium mt-0.5">Oct 24, 12:30 PM</p>
+</div>
+<span class="bg-secondary-container/20 text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">COMPLETED</span>
+</div>
+<div class="flex items-end justify-between pt-3 border-t border-surface-container-high">
+<div class="flex flex-col gap-1 max-w-[60%]">
+<p class="font-body font-semibold text-sm text-on-surface">1x Cà Phê Sữa Đá</p>
+<p class="font-body italic text-[10px] text-primary/70 mt-0.5">"Less sugar"</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-on-surface-variant uppercase mb-1">1 item</p>
+<p class="font-headline font-bold text-secondary">45,000 VND</p>
+</div>
+</div>
+</div>
+<!-- Order Item 3 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] group active:scale-[0.98] transition-all border-b border-outline-variant/10">
+<div class="flex justify-between items-start mb-3">
+<div>
+<p class="font-headline font-bold text-on-surface group-hover:text-primary transition-colors">#BT-8888</p>
+<p class="text-[11px] text-on-surface-variant font-medium mt-0.5">Oct 24, 11:15 AM</p>
+</div>
+<span class="bg-tertiary-container/20 text-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">COMPLETED</span>
+</div>
+<div class="flex items-end justify-between pt-3 border-t border-surface-container-high">
+<div class="flex flex-col gap-1 max-w-[60%]">
+<p class="font-body font-semibold text-sm text-on-surface">2x Bánh Mì &amp; Spring Rolls</p>
+<p class="font-body text-[11px] text-on-surface-variant">+ Extra Sauce</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-on-surface-variant uppercase mb-1">5 items</p>
+<p class="font-headline font-bold text-secondary">420,000 VND</p>
+</div>
+</div>
+</div>
+<!-- Heritage Flourish -->
+<div class="flex justify-center py-6 opacity-20">
+<div class="h-[1px] w-12 bg-primary"></div>
+<div class="mx-2">
+<span class="material-symbols-outlined text-xs">auto_awesome</span>
+</div>
+<div class="h-[1px] w-12 bg-primary"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-3 bg-[#fbf8ff]/80 dark:bg-[#1a1a1a]/80 backdrop-blur-xl rounded-t-3xl shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
+<button class="flex flex-col items-center justify-center text-[#49454f] dark:text-[#cac4d0] opacity-60 hover:text-[#7e000a] dark:hover:text-[#ffb4ab] transition-colors active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Work_Sans'] text-[11px] font-medium uppercase tracking-wider mt-1">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#49454f] dark:text-[#cac4d0] opacity-60 hover:text-[#7e000a] dark:hover:text-[#ffb4ab] transition-colors active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-['Work_Sans'] text-[11px] font-medium uppercase tracking-wider mt-1">Order</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#7e000a] dark:text-[#ffb4ab] relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-[#855300] after:rounded-full active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-['Work_Sans'] text-[11px] font-medium uppercase tracking-wider mt-1">History</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#49454f] dark:text-[#cac4d0] opacity-60 hover:text-[#7e000a] dark:hover:text-[#ffb4ab] transition-colors active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Work_Sans'] text-[11px] font-medium uppercase tracking-wider mt-1">Settings</span>
+</button>
+</nav>
+</body></html>
