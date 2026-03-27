@@ -3,7 +3,8 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-surface">
       {/* ── Top Navigation ── */}
-      <header className="fixed top-0 w-full z-50 bg-stone-50/80 silk-blur shadow-sm shadow-red-900/5 flex items-center justify-between px-6 h-16">
+      <header className="fixed top-0 w-full z-50 bg-stone-50/80 silk-blur shadow-sm shadow-red-900/5 safe-top">
+        <div className="h-16 flex items-center justify-between px-6">
         <div className="flex items-center gap-4">
           <h1 className="font-headline italic text-primary text-xl">
             Hủ Tiếu Ngọc Mai
@@ -17,9 +18,10 @@ export default function HomePage() {
             shopping_bag
           </span>
         </div>
+        </div>
       </header>
 
-      <main className="pt-16 pb-28">
+      <main className="pb-28" style={{ paddingTop: 'calc(4rem + env(safe-area-inset-top, 0px))' }}>
         {/* ── Hero ── */}
         <section className="relative w-full h-[580px] overflow-hidden">
           <div className="absolute inset-0 lacquer-gradient opacity-90" />

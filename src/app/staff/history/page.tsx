@@ -53,7 +53,7 @@ export default function StaffHistoryPage() {
   return (
     <>
       {/* ── Top App Bar ── */}
-      <header className="w-full top-0 sticky z-50 bg-surface-container-lowest">
+      <header className="w-full top-0 sticky z-50 bg-surface-container-lowest safe-top">
         <div className="flex items-center justify-between px-4 h-16 w-full max-w-2xl mx-auto">
           <a href="/staff/orders" className="active:scale-95 transition-transform hover:opacity-80">
             <span className="material-symbols-outlined text-primary">

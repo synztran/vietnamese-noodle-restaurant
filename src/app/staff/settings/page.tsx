@@ -11,7 +11,7 @@ export default function StaffSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface pt-20 pb-32 px-6">
+    <div className="min-h-screen bg-surface pb-32 px-6" style={{ paddingTop: 'calc(1.25rem + env(safe-area-inset-top, 0px))' }}>
       <h1 className="font-headline text-2xl text-primary font-bold mb-8">
         Cài đặt
       </h1>

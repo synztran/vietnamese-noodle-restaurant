@@ -217,7 +217,8 @@ export default function StaffOrdersPage() {
   return (
     <>
       {/* ── Top App Bar ── */}
-      <header className="fixed top-0 w-full z-50 bg-stone-50/90 silk-blur shadow-sm shadow-red-900/5 h-16 flex justify-between items-center px-4">
+      <header className="fixed top-0 w-full z-50 bg-stone-50/90 silk-blur shadow-sm shadow-red-900/5 safe-top">
+        <div className="h-16 flex justify-between items-center px-4">
         <div className="flex items-center gap-3">
           <h1 className="font-headline text-xl font-bold italic text-primary">
             Hủ Tiếu Ngọc Mai
@@ -228,9 +229,10 @@ export default function StaffOrdersPage() {
             person
           </span>
         </div>
+        </div>
       </header>
 
-      <main className="pt-20 pb-32 px-4 max-w-2xl mx-auto space-y-6">
+      <main className="pb-32 px-4 max-w-2xl mx-auto space-y-6" style={{ paddingTop: 'calc(4rem + env(safe-area-inset-top, 0px) + 1rem)' }}>
         {/* ── Daily Revenue Bento ── */}
         <section className="grid grid-cols-2 gap-4">
           <div className="col-span-2 bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] relative overflow-hidden border-l-4 border-primary">

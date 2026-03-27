@@ -13,7 +13,7 @@ export default function StaffBottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full flex justify-around items-center px-6 pb-6 pt-3 bg-stone-50/95 silk-blur shadow-[0_-4px_24px_rgba(126,0,10,0.06)] rounded-t-3xl z-50">
+    <nav className="fixed bottom-0 left-0 w-full flex justify-around items-center px-6 pt-3 safe-bottom bg-stone-50/95 silk-blur shadow-[0_-4px_24px_rgba(126,0,10,0.06)] rounded-t-3xl z-50">
       <Link
         href="/"
         className="flex flex-col items-center justify-center text-stone-500 hover:text-primary transition-all active:scale-90 duration-150"
