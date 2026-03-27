@@ -3,13 +3,24 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Hủ Tiếu Ngọc Mai — Ben Tre Since 1954",
-  description:
-    "Hủ Tiếu Ngọc Mai — Ben Tre Since 1954.",
+  description: "Hủ Tiếu Ngọc Mai — Ben Tre Since 1954.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Ngọc Mai",
+  },
+  icons: {
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
   themeColor: "#7e000a",
 };
 
