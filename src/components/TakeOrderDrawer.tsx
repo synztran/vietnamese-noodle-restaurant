@@ -8,11 +8,14 @@ import {
   MENU_TOPPINGS,
   type IDish,
   type ITopping,
+  type ISettings,
   type CreateOrderInput,
 } from "@/lib/types";
 
-// Topping lookup map for price display
+// Static fallback lookup map
 const TOPPING_MAP = new Map<string, ITopping>(MENU_TOPPINGS.map((t) => [t.id, t]));
+
+const DEFAULT_HOLIDAY_FEE: ISettings["holidayServiceFee"] = { enabled: false, feeType: "absolute", amount: 0 };
 
 // Noodle types grouped for display
 const ALL_NOODLE_TYPES = Object.values(NoodleType);
@@ -52,7 +55,25 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
   const [cart, setCart] = useState<CartDish[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [tableNum, setTableNum] = useState(() => tableNumber ?? generateTableNum());
+  const [liveSettings, setLiveSettings] = useState<ISettings | null>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+
+  // Fetch settings once on mount for live prices
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.ok ? r.json() : null)
+      .then((data: ISettings | null) => { if (data) setLiveSettings(data); })
+      .catch(() => {});
+  }, []);
+
+  // Helpers that use live settings prices, falling back to static values
+  const noodlePrice = (nt: NoodleType): number =>
+    (liveSettings?.noodlePrices as Record<string, number> | undefined)?.[nt] ?? NOODLE_PRICES[nt] ?? 0;
+
+  const toppingPrice = (id: string): number =>
+    liveSettings?.toppingPrices?.[id] ?? TOPPING_MAP.get(id)?.price ?? 0;
+
+  const holidayFee = liveSettings?.holidayServiceFee ?? DEFAULT_HOLIDAY_FEE;
 
   // Lock body scroll and prevent pull-to-refresh while drawer is open,
   // but allow normal touch-scrolling inside the drawer panel itself.
@@ -91,11 +112,9 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
     noodles: NoodleType[],
     toppingIds: string[],
   ): { base: number; total: number } {
-    const base = noodles.reduce((s, nt) => s + NOODLE_PRICES[nt], 0);
-    const extras = toppingIds.reduce(
-      (s, id) => s + (TOPPING_MAP.get(id)?.price ?? 0),
-      0,
-    );
+    // Only the first noodle type sets the base price (combos don't add extra)
+    const base = noodles.length > 0 ? noodlePrice(noodles[0]) : 0;
+    const extras = toppingIds.reduce((s, id) => s + toppingPrice(id), 0);
     return { base, total: base + extras };
   }
 
@@ -122,7 +141,13 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
     setCart((prev) => prev.filter((d) => d._localId !== localId));
   }
 
-  const cartTotal = cart.reduce((s, d) => s + d.totalDishPrice, 0);
+  const cartSubtotal = cart.reduce((s, d) => s + d.totalDishPrice, 0);
+  const cartHolidayFeeAmount = holidayFee.enabled
+    ? holidayFee.feeType === "percent"
+      ? Math.round(cartSubtotal * (holidayFee.amount / 100))
+      : holidayFee.amount
+    : 0;
+  const cartTotal = cartSubtotal + cartHolidayFeeAmount;
 
   async function confirmOrder() {
     if (cart.length === 0) return;
@@ -211,7 +236,7 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
                 >
                   <span className="font-semibold text-sm">{nt}</span>
                   <span className="text-[10px] opacity-60 font-normal">
-                    {NOODLE_PRICES[nt].toLocaleString()}đ
+                    {noodlePrice(nt).toLocaleString()}đ
                   </span>
                 </button>
               ))}
@@ -238,7 +263,7 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
                     }`}
                   >
                     {t.name}
-                    <span className="opacity-60">+{t.price.toLocaleString()}</span>
+                    <span className="opacity-60">+{toppingPrice(t.id).toLocaleString()}</span>
                   </button>
                 ))}
               </div>
@@ -350,6 +375,16 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
               ))}
 
               <div className="divider my-0" />
+
+              {holidayFee.enabled && (
+                <div className="flex justify-between text-xs text-on-surface-variant">
+                  <span className="flex items-center gap-1">
+                    <span className="material-symbols-outlined" style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}>celebration</span>
+                    Phí lễ/tết{holidayFee.feeType === "percent" ? ` (${holidayFee.amount}%)` : ""}
+                  </span>
+                  <span>+{cartHolidayFeeAmount.toLocaleString()}đ</span>
+                </div>
+              )}
 
               <div className="flex justify-between font-headline font-bold text-primary text-base">
                 <span>Tổng cộng</span>

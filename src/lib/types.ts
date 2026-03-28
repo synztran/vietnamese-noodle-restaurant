@@ -82,6 +82,21 @@ export interface IOrder {
 	updatedAt: Date;
 }
 
+// --- SETTINGS ---
+
+export interface ISettings {
+	noodlePrices: Partial<Record<NoodleType, number>>;
+	toppingPrices: Record<string, number>;
+	holidayServiceFee: {
+		enabled: boolean;
+		/** "absolute": fixed VND per order | "percent": % of subtotal */
+		feeType: "absolute" | "percent";
+		amount: number; // VND if absolute, 0–100 if percent
+	};
+	dailyTarget: number;
+	monthlyTarget: number;
+}
+
 // --- JWT PAYLOAD ---
 
 export interface JWTPayload {
