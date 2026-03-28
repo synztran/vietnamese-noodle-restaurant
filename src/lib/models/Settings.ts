@@ -19,6 +19,7 @@ const settingsSchema = new Schema({
 	holidayServiceFee: { type: holidayFeeSchema, default: () => ({}) },
 	dailyTarget: { type: Number, default: 15_000_000 },
 	monthlyTarget: { type: Number, default: 400_000_000 },
+	applyForcePaid: { type: Boolean, default: false },
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

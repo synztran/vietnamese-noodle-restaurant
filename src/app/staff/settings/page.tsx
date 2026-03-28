@@ -29,18 +29,29 @@ function PriceInput({
   value: number;
   onChange: (v: number) => void;
 }) {
+  const [raw, setRaw] = useState(String(value));
+
+  // Sync display when external value changes (e.g. on load)
+  useEffect(() => {
+    setRaw(String(value));
+  }, [value]);
+
   return (
     <div className="flex flex-col gap-1">
     <div className="flex items-center gap-1 shrink-0">
       <input
-        type="number"
-        min={0}
-        step={1000}
+        type="text"
+        inputMode="numeric"
+        pattern="[0-9]*"
         className="input input-sm input-bordered w-28 text-right font-mono text-base"
-        value={value}
-        onChange={(e) =>
-          onChange(Math.max(0, Math.round(parseFloat(e.target.value) || 0)))
-        }
+        value={raw}
+        onChange={(e) => {
+          const digits = e.target.value.replace(/[^0-9]/g, "");
+          setRaw(digits);
+          const n = parseInt(digits, 10);
+          onChange(isNaN(n) ? 0 : n);
+        }}
+        onBlur={() => setRaw(String(value))}
       />
     </div>
     <span className="text-xs text-right">{value.toLocaleString()}đ</span>
@@ -83,14 +94,16 @@ export default function StaffSettingsPage() {
   const [holidayFee, setHolidayFee] = useState<{ enabled: boolean; feeType: "absolute" | "percent"; amount: number }>({ enabled: false, feeType: "absolute", amount: 5000 });
   const [dailyTarget, setDailyTarget] = useState(15_000_000);
   const [monthlyTarget, setMonthlyTarget] = useState(400_000_000);
+  const [applyForcePaid, setApplyForcePaid] = useState(false);
 
   // Track the last-saved snapshot
-  const savedSnapshot = useRef({ noodlePrices: {}, toppingPrices: {}, holidayFee: { enabled: false, feeType: "absolute" as const, amount: 5000 }, dailyTarget: 15_000_000, monthlyTarget: 400_000_000 } as {
+  const savedSnapshot = useRef({ noodlePrices: {}, toppingPrices: {}, holidayFee: { enabled: false, feeType: "absolute" as const, amount: 5000 }, dailyTarget: 15_000_000, monthlyTarget: 400_000_000, applyForcePaid: false } as {
     noodlePrices: Record<string, number>;
     toppingPrices: Record<string, number>;
     holidayFee: { enabled: boolean; feeType: "absolute" | "percent"; amount: number };
     dailyTarget: number;
     monthlyTarget: number;
+    applyForcePaid: boolean;
   });
 
   const isDirty =
@@ -100,7 +113,8 @@ export default function StaffSettingsPage() {
     holidayFee.feeType !== savedSnapshot.current.holidayFee.feeType ||
     holidayFee.amount !== savedSnapshot.current.holidayFee.amount ||
     dailyTarget !== savedSnapshot.current.dailyTarget ||
-    monthlyTarget !== savedSnapshot.current.monthlyTarget;
+    monthlyTarget !== savedSnapshot.current.monthlyTarget ||
+    applyForcePaid !== savedSnapshot.current.applyForcePaid;
 
   const loadSettings = useCallback(async () => {
     try {
@@ -112,12 +126,14 @@ export default function StaffSettingsPage() {
         const hf = data.holidayServiceFee ?? { enabled: false, feeType: "absolute" as const, amount: 5000 };
         const dt = data.dailyTarget ?? 15_000_000;
         const mt = data.monthlyTarget ?? 400_000_000;
+        const afp = data.applyForcePaid ?? false;
         setNoodlePrices(np);
         setToppingPrices(tp);
         setHolidayFee(hf);
         setDailyTarget(dt);
         setMonthlyTarget(mt);
-        savedSnapshot.current = { noodlePrices: np, toppingPrices: tp, holidayFee: hf, dailyTarget: dt, monthlyTarget: mt };
+        setApplyForcePaid(afp);
+        savedSnapshot.current = { noodlePrices: np, toppingPrices: tp, holidayFee: hf, dailyTarget: dt, monthlyTarget: mt, applyForcePaid: afp };
       }
     } finally {
       setLoading(false);
@@ -140,10 +156,11 @@ export default function StaffSettingsPage() {
           holidayServiceFee: holidayFee,
           dailyTarget,
           monthlyTarget,
+          applyForcePaid,
         }),
       });
       // Update snapshot so isDirty resets to false
-      savedSnapshot.current = { noodlePrices, toppingPrices, holidayFee, dailyTarget, monthlyTarget };
+      savedSnapshot.current = { noodlePrices, toppingPrices, holidayFee, dailyTarget, monthlyTarget, applyForcePaid };
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
     } finally {
@@ -285,15 +302,16 @@ export default function StaffSettingsPage() {
                 {holidayFee.feeType === "percent" ? (
                   <div className="flex items-center gap-1 shrink-0">
                     <input
-                      type="number"
-                      min={0}
-                      max={100}
-                      step={1}
+                      type="text"
+                      inputMode="decimal"
+                      pattern="[0-9]*\.?[0-9]*"
                       className="input input-sm input-bordered w-20 text-right font-mono text-base"
-                      value={holidayFee.amount}
-                      onChange={(e) =>
-                        setHolidayFee((f) => ({ ...f, amount: Math.min(100, Math.max(0, parseFloat(e.target.value) || 0)) }))
-                      }
+                      value={holidayFee.amount === 0 ? "" : String(holidayFee.amount)}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9.]/g, "");
+                        const n = parseFloat(raw);
+                        setHolidayFee((f) => ({ ...f, amount: isNaN(n) ? 0 : Math.min(100, Math.max(0, n)) }));
+                      }}
                     />
                     <span className="text-sm text-on-surface-variant">%</span>
                   </div>
@@ -304,6 +322,26 @@ export default function StaffSettingsPage() {
                   />
                 )}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Special config */}
+        <section className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+          <SectionHeader icon="celebration" label="Thiết lập đặc biệt" iconColor="text-secondary" />
+          <div className="px-4 py-4 space-y-4">
+            {/* Enable toggle */}
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-on-surface">Kích hoạt thiết lập thu tiền</p>
+                <p className="text-xs text-on-surface-variant mt-0.5">Nhân viên có thể áp dụng các thiết lập thu tiền đặc biệt cho mỗi đơn hàng</p>
+              </div>
+              <input
+                type="checkbox"
+                className="toggle toggle-primary toggle-sm"
+                checked={applyForcePaid}
+                onChange={(e) => setApplyForcePaid(e.target.checked)}
+              />
             </div>
           </div>
         </section>

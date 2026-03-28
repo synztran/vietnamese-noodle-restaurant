@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 import connectDB from "./mongoose";
 import UserModel from "./models/User";
 import OrderModel from "./models/Order";
@@ -56,7 +57,10 @@ export async function getUserByUserName(
 	userName: string,
 ): Promise<IUser | null> {
 	await connectDB();
-	const user = await UserModel.findOne({ userName }).lean();
+	const sanitizedUserName = String(userName).slice(0, 128);
+	const user = await UserModel.findOne({
+		userName: sanitizedUserName,
+	}).lean();
 	if (!user) return null;
 	return { ...user, _id: String(user._id) } as IUser;
 }
@@ -65,11 +69,12 @@ export async function createUser(
 	input: CreateUserInput,
 ): Promise<Omit<IUser, "passWord">> {
 	await connectDB();
-	const existing = await UserModel.findOne({ userName: input.userName });
+	const sanitizedUserName = String(input.userName).slice(0, 128);
+	const existing = await UserModel.findOne({ userName: sanitizedUserName });
 	if (existing) throw new Error("USERNAME_TAKEN");
 	const passWord = bcrypt.hashSync(input.passWord, 10);
 	const doc = await UserModel.create({
-		userName: input.userName,
+		userName: sanitizedUserName,
 		passWord,
 		role: input.role,
 		createdAt: new Date(),
@@ -182,11 +187,16 @@ export async function createOrder(
 export async function updateOrderStatus(
 	id: string,
 	status: OrderStatus,
+	realPaidPrice?: number,
 ): Promise<IOrder | null> {
 	await connectDB();
+	if (!mongoose.isValidObjectId(id)) return null;
+	const safeId = new mongoose.Types.ObjectId(id);
+	const patch: Record<string, unknown> = { status, updatedAt: new Date() };
+	if (typeof realPaidPrice === "number") patch.realPaidPrice = realPaidPrice;
 	const doc = await OrderModel.findByIdAndUpdate(
-		id,
-		{ status, updatedAt: new Date() },
+		safeId,
+		{ $set: patch },
 		{ new: true },
 	).lean();
 	if (!doc) return null;
@@ -209,7 +219,9 @@ export async function getDailyRevenue(): Promise<number> {
 		{
 			$group: {
 				_id: null,
-				total: { $sum: "$totalAmount" },
+				total: {
+					$sum: { $ifNull: ["$realPaidPrice", "$totalAmount"] },
+				},
 			},
 		},
 	]);
@@ -263,6 +275,7 @@ function normaliseSettings(raw: Record<string, unknown>): ISettings {
 		},
 		dailyTarget: (raw.dailyTarget as number) ?? 15_000_000,
 		monthlyTarget: (raw.monthlyTarget as number) ?? 400_000_000,
+		applyForcePaid: (raw.applyForcePaid as boolean) ?? false,
 	};
 }
 
@@ -280,6 +293,7 @@ export async function getSettings(): Promise<ISettings> {
 			},
 			dailyTarget: 15_000_000,
 			monthlyTarget: 400_000_000,
+			applyForcePaid: false,
 		};
 	}
 	return normaliseSettings(doc as unknown as Record<string, unknown>);
@@ -301,11 +315,13 @@ export async function updateSettings(
 		patch.dailyTarget = input.dailyTarget;
 	if (typeof input.monthlyTarget === "number")
 		patch.monthlyTarget = input.monthlyTarget;
+	if (typeof input.applyForcePaid === "boolean")
+		patch.applyForcePaid = input.applyForcePaid;
 
 	const doc = await SettingsModel.findOneAndUpdate(
 		{},
 		{ $set: patch },
-		{ new: true, upsert: true },
+		{ new: true, upsert: true, returnDocument: "after" },
 	).lean();
 
 	return normaliseSettings(doc as unknown as Record<string, unknown>);

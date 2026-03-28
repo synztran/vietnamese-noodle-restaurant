@@ -103,6 +103,15 @@ export async function PUT(request: NextRequest) {
 			{ status: 400 },
 		);
 	}
+	if (
+		body.applyForcePaid !== undefined &&
+		typeof body.applyForcePaid !== "boolean"
+	) {
+		return NextResponse.json(
+			{ error: "Invalid applyForcePaid" },
+			{ status: 400 },
+		);
+	}
 
 	const settings = await updateSettings(body);
 	return NextResponse.json(settings);

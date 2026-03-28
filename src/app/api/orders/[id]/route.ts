@@ -35,14 +35,21 @@ export async function PATCH(
 	const { id } = await params;
 
 	try {
-		const body = (await request.json()) as { status?: OrderStatus };
+		const body = (await request.json()) as {
+			status?: OrderStatus;
+			realPaidPrice?: number;
+		};
 		if (!body.status || !Object.values(OrderStatus).includes(body.status)) {
 			return NextResponse.json(
 				{ error: "Valid status required" },
 				{ status: 400 },
 			);
 		}
-		const order = await updateOrderStatus(id, body.status);
+		const realPaidPrice =
+			typeof body.realPaidPrice === "number" && body.realPaidPrice >= 0
+				? body.realPaidPrice
+				: undefined;
+		const order = await updateOrderStatus(id, body.status, realPaidPrice);
 		if (!order) {
 			return NextResponse.json(
 				{ error: "Order not found" },

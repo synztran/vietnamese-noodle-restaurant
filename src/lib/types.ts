@@ -89,6 +89,7 @@ export interface IOrder {
 		customerName?: string;
 		customerPhone?: string;
 	};
+	realPaidPrice?: number; // Actual amount paid by customer (can differ from totalAmount if discounts or adjustments are applied at payment time)
 }
 
 // --- SETTINGS ---
@@ -104,6 +105,7 @@ export interface ISettings {
 	};
 	dailyTarget: number;
 	monthlyTarget: number;
+	applyForcePaid: boolean; // If true, staff can mark orders as Paid even if they haven't gone through the normal flow (e.g., for walk-ins or phone orders)
 }
 
 // --- JWT PAYLOAD ---
@@ -134,6 +136,7 @@ export type CreateOrderInput = {
 
 export type UpdateOrderInput = {
 	status?: OrderStatus;
+	realPaidPrice?: number; // Actual amount received from customer at payment time
 };
 
 export type CreateUserInput = {

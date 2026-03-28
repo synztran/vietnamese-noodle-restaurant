@@ -50,7 +50,6 @@ function generateTableNum(): string {
 }
 
 export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber, isOpen }: Props) {
-  console.log(isOpen)
   const [selectedNoodles, setSelectedNoodles] = useState<NoodleType[]>([]);
   const [selectedToppingIds, setSelectedToppingIds] = useState<string[]>([]);
   const [note, setNote] = useState("");
@@ -215,7 +214,7 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber, 
   );
 
   return (
-    <div ref={drawerRef} className={`fixed bottom-0 left-0 w-full bg-surface-container-lowest rounded-t-[2.5rem] shadow-[0_-20px_60px_rgba(0,0,0,0.15)] max-h-max overflow-y-auto no-scrollbar flex flex-col z-[60] transition-all duration-500 ${isOpen ? "top-[5vh]" : "top-[100vh]"}`}>
+    <div ref={drawerRef} className={`fixed bottom-0 left-0 w-full bg-surface-container-lowest rounded-t-[2.5rem] shadow-[0_-20px_60px_rgba(0,0,0,0.15)] h-full overflow-y-auto  flex flex-col z-[60] transition-all duration-500 ${isOpen ? "top-[5vh]" : "top-[100vh]"}`}>
 
         {/* Handle & Header */}
         <div className="sticky top-0 bg-surface-container-lowest z-10 px-6 pt-5 pb-3">

@@ -45,6 +45,7 @@ const OrderSchema = new Schema<IOrderDocument>(
 			holidayServiceFee: { type: Number, default: 0 },
 		},
 		scheduleOrder: { type: ScheduleOrderSchema, required: false },
+    realPaidPrice: { type: Number, required: false },
 	},
 	{ timestamps: false, versionKey: false },
 );

@@ -106,9 +106,11 @@ function ElapsedBadge({ createdAt, isActive }: { createdAt: string | Date; isAct
 const OrderCard = memo(function OrderCard({
   order,
   onStatusChange,
+  isAllowForcePaid,
 }: {
   order: IOrder;
-  onStatusChange: (id: string, status: OrderStatus) => void;
+  onStatusChange: (id: string, status: OrderStatus, realPaidPrice?: number) => void;
+  isAllowForcePaid: boolean;
 }) {
   const cfg = STATUS_CONFIG[order.status];
   const next = NEXT_STATUS[order.status];
@@ -116,10 +118,13 @@ const OrderCard = memo(function OrderCard({
   const isPaid = order.status === OrderStatus.Paid;
   const isScheduled = order.status === OrderStatus.Scheduled;
   const [updating, setUpdating] = useState<OrderStatus | null>(null);
+  const forcePaidDialogRef = useRef<HTMLDialogElement>(null);
+  const [forcePaidAmount, setForcePaidAmount] = useState(0);
+  const [forcePaidRaw, setForcePaidRaw] = useState("");
 
-  async function handleChange(toStatus: OrderStatus) {
+  async function handleChange(toStatus: OrderStatus, realPaidPrice?: number) {
     setUpdating(toStatus);
-    await onStatusChange(order._id!, toStatus);
+    await onStatusChange(order._id!, toStatus, realPaidPrice);
     setUpdating(null);
   }
 
@@ -141,7 +146,6 @@ const OrderCard = memo(function OrderCard({
     const tick = setInterval(() => {
       const m = Math.floor((Date.now() - new Date(order.createdAt).getTime()) / 60000);
       const stausUrget = [OrderStatus.Pending, OrderStatus.Cooking].includes(order.status) ;
-      console.log(order.status, m)
       setUrgent(stausUrget && m >= URGET_MINUTE);
     }, 5 * 1000);
     return () => clearInterval(tick);
@@ -237,8 +241,16 @@ const OrderCard = memo(function OrderCard({
               <span className="tabular-nums">&nbsp;+{feeAmount.toLocaleString()}đ</span>
             </p>
           )}
-          <p className="font-headline font-bold text-on-surface">
-            {order.totalAmount.toLocaleString()}đ
+          {order.realPaidPrice != null && order.realPaidPrice !== order.totalAmount && (
+            <p className="text-[10px] text-on-surface-variant line-through tabular-nums">
+              {order.totalAmount.toLocaleString()}đ
+            </p>
+          )}
+          <p className={`font-headline font-bold ${order.realPaidPrice != null ? "text-emerald-700" : "text-on-surface"}`}>
+            {(order.realPaidPrice ?? order.totalAmount).toLocaleString()}đ
+            {/* {order.realPaidPrice != null && (
+              <span className="ml-1 text-[10px] font-label font-normal text-emerald-600 uppercase tracking-wide">thực thu</span>
+            )} */}
           </p>
         </div>
         <div className="flex gap-2">
@@ -250,11 +262,24 @@ const OrderCard = memo(function OrderCard({
             >
               {updating === next ? (
                 <span className="loading loading-spinner loading-xs" />
-              ) : null}
-              {NEXT_LABEL[order.status]}
+              ) : NEXT_LABEL[order.status]}
             </button>
           )}
-          {!isCancelled && !isPaid && (
+          {isAllowForcePaid && [OrderStatus.Served].includes(order.status) && (
+            <button
+              onClick={() => {
+                setForcePaidAmount(order.totalAmount);
+                setForcePaidRaw(String(order.totalAmount));
+                forcePaidDialogRef.current?.showModal();
+              }}
+              disabled={!!updating}
+              className="px-3 py-1.5 rounded-lg font-label text-xs font-bold uppercase tracking-wider active:scale-95 transition-transform bg-yellow-400 text-yellow-900 shadow-sm disabled:opacity-70 disabled:scale-100 flex items-center gap-1"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 13, fontVariationSettings: "'FILL' 1" }}>payments</span>
+              Thu tiền
+            </button>
+          )}
+          {[OrderStatus.Pending, OrderStatus.Cooking].includes(order.status) && (
             <button
               onClick={() => handleChange(OrderStatus.Cancelled)}
               disabled={!!updating}
@@ -268,6 +293,48 @@ const OrderCard = memo(function OrderCard({
           )}
         </div>
       </div>
+
+      {/* Force Paid Modal */}
+      <dialog ref={forcePaidDialogRef} className="modal">
+        <div className="modal-box max-w-sm mb-36">
+          <h3 className="font-headline font-bold text-lg text-on-surface mb-1">Thu tiền đơn #{order.orderNumber}</h3>
+          <p className="text-xs text-on-surface-variant mb-4">Nhập số tiền thực tế khách trả. Để trống giá trị mặc định nếu khách trả đúng.</p>
+          <fieldset className="fieldset">
+            <legend className="fieldset-legend text-on-surface-variant">Số tiền thực thu (đ)</legend>
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              className="input input-bordered w-full focus:outline-none font-mono text-base"
+              value={forcePaidRaw}
+              onChange={(e) => {
+                const digits = e.target.value.replace(/[^0-9]/g, "");
+                setForcePaidRaw(digits);
+                const n = parseInt(digits, 10);
+                setForcePaidAmount(isNaN(n) ? 0 : n);
+              }}
+              onBlur={() => setForcePaidRaw(String(forcePaidAmount))}
+            />
+            <p className="fieldset-label">{forcePaidAmount.toLocaleString()}đ • Giá gốc: {order.totalAmount.toLocaleString()}đ</p>
+          </fieldset>
+          <div className="modal-action mt-4">
+            <form method="dialog">
+              <button className="btn btn-ghost btn-sm">Huỷ</button>
+            </form>
+            <button
+              className="btn btn-sm bg-yellow-400 text-yellow-900 border-0 hover:bg-yellow-500 font-bold"
+              onClick={() => {
+                forcePaidDialogRef.current?.close();
+                handleChange(OrderStatus.Paid, forcePaidAmount);
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: 15, fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+              Xác nhận thu tiền
+            </button>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop"><button>close</button></form>
+      </dialog>
     </div>
   );
 });
@@ -282,6 +349,7 @@ export default function StaffOrdersPage() {
   const [dailyTarget, setDailyTarget] = useState(15_000_000);
   const [pullDistance, setPullDistance] = useState(0);
   const [isPullRefreshing, setIsPullRefreshing] = useState(false);
+  const [isAllowForcePaid, setAllowForcePaid] = useState(false);
   const pullRef = useRef({ startY: 0, dist: 0, active: false });
   const PULL_THRESHOLD = 72;
 
@@ -317,6 +385,7 @@ export default function StaffOrdersPage() {
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (data?.dailyTarget) setDailyTarget(data.dailyTarget);
+        if (data?.applyForcePaid) setAllowForcePaid(data.applyForcePaid);
       })
       .catch(() => {});
     const interval = setInterval(() => {
@@ -377,11 +446,11 @@ export default function StaffOrdersPage() {
     };
   }, [drawerOpen, fetchOrders]);
 
-  const handleStatusChange = useCallback(async (id: string, status: OrderStatus) => {
+  const handleStatusChange = useCallback(async (id: string, status: OrderStatus, realPaidPrice?: number) => {
     await fetch(`/api/orders/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
+      body: JSON.stringify({ status, ...(typeof realPaidPrice === "number" && { realPaidPrice }) }),
     });
     fetchOrders();
     if (status === OrderStatus.Paid) fetchRevenue();
@@ -571,6 +640,7 @@ export default function StaffOrdersPage() {
                 key={order._id}
                 order={order}
                 onStatusChange={handleStatusChange}
+                isAllowForcePaid={isAllowForcePaid}
               />
             ))
           )}
