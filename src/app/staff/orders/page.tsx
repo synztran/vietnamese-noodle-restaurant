@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import type { IOrder, ISettings } from "@/lib/types";
+import type { IOrder } from "@/lib/types";
 import { OrderStatus, MENU_TOPPINGS } from "@/lib/types";
 import TakeOrderDrawer from "@/components/TakeOrderDrawer";
 
@@ -66,11 +66,9 @@ function formatElapsed(createdAt: string): string {
 function OrderCard({
   order,
   onStatusChange,
-  holidayFee,
 }: {
   order: IOrder;
   onStatusChange: (id: string, status: OrderStatus) => void;
-  holidayFee: ISettings["holidayServiceFee"] | null;
 }) {
   const cfg = STATUS_CONFIG[order.status];
   const next = NEXT_STATUS[order.status];
@@ -84,12 +82,7 @@ function OrderCard({
     setUpdating(null);
   }
 
-  const dishSubtotal = order.dishes.reduce((s, d) => s + d.totalDishPrice, 0);
-  const feeAmount = holidayFee?.enabled
-    ? holidayFee.feeType === "percent"
-      ? Math.round(dishSubtotal * (holidayFee.amount / 100))
-      : holidayFee.amount
-    : 0;
+  const feeAmount = order.fees?.holidayServiceFee ?? 0;
 
   return (
     <div className={`bg-surface-container-lowest rounded-xl border-l-4 ${cfg.borderClass} shadow-sm overflow-hidden transition-opacity ${isCancelled ? "opacity-55" : ""}`}>
@@ -156,7 +149,7 @@ function OrderCard({
           {feeAmount > 0 && (
             <p className="text-[10px] text-on-surface-variant flex items-center gap-0.5 mb-0.5">
               <span className="material-symbols-outlined" style={{ fontSize: 11, fontVariationSettings: "'FILL' 1" }}>celebration</span>
-              Phí lễ/tết{holidayFee?.feeType === "percent" ? ` (${holidayFee.amount}%)` : ""}
+              Phí lễ/tết
               <span className="tabular-nums">&nbsp;+{feeAmount.toLocaleString()}đ</span>
             </p>
           )}
@@ -201,13 +194,24 @@ export default function StaffOrdersPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("Tất cả");
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [dailyRevenue] = useState(0);
+  const [dailyRevenue, setDailyRevenue] = useState(0);
   const [dailyTarget, setDailyTarget] = useState(15_000_000);
-  const [holidayFee, setHolidayFee] = useState<ISettings["holidayServiceFee"] | null>(null);
   const [pullDistance, setPullDistance] = useState(0);
   const [isPullRefreshing, setIsPullRefreshing] = useState(false);
   const pullRef = useRef({ startY: 0, dist: 0, active: false });
   const PULL_THRESHOLD = 72;
+
+  const fetchRevenue = useCallback(async () => {
+    try {
+      const res = await fetch("/api/orders/revenue");
+      if (res.ok) {
+        const data = await res.json();
+        setDailyRevenue(data.revenue ?? 0);
+      }
+    } catch {
+      // non-blocking
+    }
+  }, []);
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -223,17 +227,20 @@ export default function StaffOrdersPage() {
 
   useEffect(() => {
     fetchOrders();
-    // Fetch settings once for daily target + holiday fee
+    fetchRevenue();
+    // Fetch settings once for daily target
     fetch("/api/settings")
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (data?.dailyTarget) setDailyTarget(data.dailyTarget);
-        if (data?.holidayServiceFee) setHolidayFee(data.holidayServiceFee);
       })
       .catch(() => {});
-    const interval = setInterval(fetchOrders, 5000);
+    const interval = setInterval(() => {
+      fetchOrders();
+      fetchRevenue();
+    }, 5000);
     return () => clearInterval(interval);
-  }, [fetchOrders]);
+  }, [fetchOrders, fetchRevenue]);
 
   // Pull-to-refresh (only when drawer is closed)
   useEffect(() => {
@@ -293,6 +300,7 @@ export default function StaffOrdersPage() {
       body: JSON.stringify({ status }),
     });
     fetchOrders();
+    if (status === OrderStatus.Paid) fetchRevenue();
   }
 
   const filteredOrders = orders.filter((o) => {
@@ -393,14 +401,14 @@ export default function StaffOrdersPage() {
             </span>
           </div>
 
-          <div className="bg-gray-200 p-2 rounded-xl flex items-center gap-4">
+          <div className="bg-gray-200 p-2 rounded-xl flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-secondary">
                 restaurant_menu
               </span>
             </div>
             <div>
-              <p className="font-bold text-sm uppercase tracking-widest text-on-surface-variant">
+              <p className="font-bold text-xs uppercase tracking-widest text-on-surface-variant">
                 Đợi xử lý
               </p>
               <p className="text-2xl font-headline font-bold text-on-surface">
@@ -409,15 +417,15 @@ export default function StaffOrdersPage() {
             </div>
           </div>
 
-          <div className="bg-gray-200 p-2 rounded-xl flex items-center gap-4">
+          <div className="bg-gray-200 p-2 rounded-xl flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-tertiary/10 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-green-600">
                 check_circle
               </span>
             </div>
             <div>
-              <p className="font-bold text-sm uppercase tracking-widest text-on-surface-variant">
-                Hoàn thành
+              <p className="font-bold text-xs uppercase tracking-widest text-on-surface-variant">
+                Đơn hoàn tất
               </p>
               <p className="text-2xl font-headline font-bold text-on-surface">
                 {serviced}
@@ -473,7 +481,6 @@ export default function StaffOrdersPage() {
                 key={order._id}
                 order={order}
                 onStatusChange={handleStatusChange}
-                holidayFee={holidayFee}
               />
             ))
           )}

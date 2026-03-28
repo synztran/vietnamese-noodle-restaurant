@@ -139,16 +139,18 @@ export async function createOrder(
 		};
 	});
 
-	let totalAmount = dishes.reduce((s, d) => s + d.totalDishPrice, 0);
+	const dishSubtotal = dishes.reduce((s, d) => s + d.totalDishPrice, 0);
+	let holidayFeeAmount = 0;
 	if (settings.holidayServiceFee.enabled) {
 		if (settings.holidayServiceFee.feeType === "percent") {
-			totalAmount = Math.round(
-				totalAmount * (1 + settings.holidayServiceFee.amount / 100),
+			holidayFeeAmount = Math.round(
+				dishSubtotal * (settings.holidayServiceFee.amount / 100),
 			);
 		} else {
-			totalAmount += settings.holidayServiceFee.amount;
+			holidayFeeAmount = settings.holidayServiceFee.amount;
 		}
 	}
+	const totalAmount = dishSubtotal + holidayFeeAmount;
 	const now = new Date();
 
 	const doc = await OrderModel.create({
@@ -160,6 +162,9 @@ export async function createOrder(
 		status: OrderStatus.Pending,
 		createdAt: now,
 		updatedAt: now,
+		fees: {
+			holidayServiceFee: holidayFeeAmount,
+		},
 	});
 
 	return docToOrder(doc.toObject() as unknown as Record<string, unknown>);

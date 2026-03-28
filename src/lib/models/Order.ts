@@ -32,6 +32,9 @@ const OrderSchema = new Schema<IOrderDocument>(
 		},
 		createdAt: { type: Date, default: () => new Date() },
 		updatedAt: { type: Date, default: () => new Date() },
+    fees: {
+      holidayServiceFee: { type: Number, default: 0 },
+    }
 	},
 	{ timestamps: false, versionKey: false },
 );

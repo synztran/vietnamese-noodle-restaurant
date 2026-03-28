@@ -80,6 +80,9 @@ export interface IOrder {
 	status: OrderStatus;
 	createdAt: Date;
 	updatedAt: Date;
+  fees?: {
+    holidayServiceFee?: number; // Calculated at order creation based on settings, added to totalAmount
+  }
 }
 
 // --- SETTINGS ---

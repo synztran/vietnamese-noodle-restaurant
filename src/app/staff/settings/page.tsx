@@ -30,6 +30,7 @@ function PriceInput({
   onChange: (v: number) => void;
 }) {
   return (
+    <div className="flex flex-col gap-1">
     <div className="flex items-center gap-1 shrink-0">
       <input
         type="number"
@@ -41,7 +42,8 @@ function PriceInput({
           onChange(Math.max(0, Math.round(parseFloat(e.target.value) || 0)))
         }
       />
-      <span className="text-sm text-on-surface-variant">đ</span>
+    </div>
+    <span className="text-xs text-right">{value.toLocaleString()}đ</span>
     </div>
   );
 }
