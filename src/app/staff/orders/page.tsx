@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, memo } from "react";
 import type { IOrder } from "@/lib/types";
 import { OrderStatus, MENU_TOPPINGS } from "@/lib/types";
 import TakeOrderDrawer from "@/components/TakeOrderDrawer";
 
 const TOPPING_MAP = new Map(MENU_TOPPINGS.map((t) => [t.id, t.name]));
+const URGET_MINUTE = 2
 
 const STATUS_CONFIG: Record<
   OrderStatus,
@@ -58,12 +59,42 @@ const NEXT_LABEL: Partial<Record<OrderStatus, string>> = {
   [OrderStatus.Served]: "Thanh toán",
 };
 
-function formatElapsed(createdAt: string): string {
-  const diff = Math.floor((Date.now() - new Date(createdAt).getTime()) / 60000);
-  return `${diff} phút`;
+function formatElapsed(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  if (m === 0) return `${s} giây`;
+  return `${m} phút ${s.toString().padStart(2, "0")} giây`;
 }
 
-function OrderCard({
+// Isolated leaf — only this tiny component re-renders every second
+function ElapsedBadge({ createdAt, isActive }: { createdAt: string | Date; isActive: boolean }) {
+  const [elapsedSeconds, setElapsedSeconds] = useState(() =>
+    Math.floor((Date.now() - new Date(createdAt).getTime()) / 1000)
+  );
+  useEffect(() => {
+    if (!isActive) return;
+    const tick = setInterval(() => {
+      setElapsedSeconds(Math.floor((Date.now() - new Date(createdAt).getTime()) / 1000));
+    }, 1_000);
+    return () => clearInterval(tick);
+  }, [isActive, createdAt]);
+
+  const m = Math.floor(elapsedSeconds / 60);
+  const isUrgent = isActive && m >= 5;
+
+  return (
+    <span className={`text-[10px] tabular-nums flex items-center gap-0.5 ${
+      isUrgent ? "text-red-500 font-bold" : "text-on-surface-variant"
+    }`}>
+      {isUrgent && (
+        <span className="material-symbols-outlined" style={{ fontSize: 12, fontVariationSettings: "'FILL' 1" }}>warning</span>
+      )}
+      {formatElapsed(elapsedSeconds)}
+    </span>
+  );
+}
+
+const OrderCard = memo(function OrderCard({
   order,
   onStatusChange,
 }: {
@@ -84,8 +115,30 @@ function OrderCard({
 
   const feeAmount = order.fees?.holidayServiceFee ?? 0;
 
+  const isActive = order.status === OrderStatus.Pending || order.status === OrderStatus.Cooking;
+  // Only tracks threshold crossings (0=normal, 1=warning ≥5min, 2=urgent ≥10min)
+  // Updates at most twice per order lifetime — card does NOT re-render every second
+  const [isUrgent, setUrgent] = useState(() => {
+    const m = Math.floor((Date.now() - new Date(order.createdAt).getTime()) / 60000);
+    const stausUrget = [OrderStatus.Pending, OrderStatus.Cooking].includes(order.status) ;
+    return stausUrget && m >= URGET_MINUTE;
+  });
+  useEffect(() => {
+    if (!isActive) {
+      setUrgent(false);
+      return;
+    };
+    const tick = setInterval(() => {
+      const m = Math.floor((Date.now() - new Date(order.createdAt).getTime()) / 60000);
+      const stausUrget = [OrderStatus.Pending, OrderStatus.Cooking].includes(order.status) ;
+      console.log(order.status, m)
+      setUrgent(stausUrget && m >= URGET_MINUTE);
+    }, 5 * 1000);
+    return () => clearInterval(tick);
+  }, [isActive, order.createdAt, order.status]);
+
   return (
-    <div className={`bg-surface-container-lowest rounded-xl border-l-4 ${cfg.borderClass} shadow-sm overflow-hidden transition-opacity ${isCancelled ? "opacity-55" : ""}`}>
+    <div className={`rounded-xl border-l-4 ${cfg.borderClass} shadow-sm overflow-hidden transition-opacity ${isCancelled ? "opacity-55 bg-surface-container-lowest" : isUrgent ? "bg-red-50/60 order-shake"  : "bg-surface-container-lowest"}`}>
 
       {/* Header */}
       <div className="px-4 pt-4 pb-2 flex justify-between items-start gap-2">
@@ -110,9 +163,7 @@ function OrderCard({
             {cfg.label}
           </span>
           {!isPaid && (
-            <span className="text-[10px] text-on-surface-variant tabular-nums">
-              {formatElapsed(String(order.createdAt))}
-            </span>
+            <ElapsedBadge createdAt={order.createdAt} isActive={isActive} />
           )}
         </div>
       </div>
@@ -186,7 +237,7 @@ function OrderCard({
       </div>
     </div>
   );
-}
+});
 const TABS = ["Tất cả", "Chờ xử lý", "Đang nấu", "Đã phục vụ"];
 
 export default function StaffOrdersPage() {
@@ -293,7 +344,7 @@ export default function StaffOrdersPage() {
     };
   }, [drawerOpen, fetchOrders]);
 
-  async function handleStatusChange(id: string, status: OrderStatus) {
+  const handleStatusChange = useCallback(async (id: string, status: OrderStatus) => {
     await fetch(`/api/orders/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -301,7 +352,7 @@ export default function StaffOrdersPage() {
     });
     fetchOrders();
     if (status === OrderStatus.Paid) fetchRevenue();
-  }
+  }, [fetchOrders, fetchRevenue]);
 
   const filteredOrders = orders.filter((o) => {
     if (activeTab === "Tất cả") return true;
