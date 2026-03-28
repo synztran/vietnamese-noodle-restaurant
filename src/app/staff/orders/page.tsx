@@ -45,18 +45,27 @@ const STATUS_CONFIG: Record<
     icon: "cancel",
     borderClass: "border-l-stone-300",
   },
+  [OrderStatus.Scheduled]: {
+    label: "Đặt trước",
+    classes: "bg-purple-100/60 text-purple-800 border border-purple-200",
+    icon: "event",
+    borderClass: "border-l-purple-400",
+    dot: "bg-purple-500",
+  },
 };
 
 const NEXT_STATUS: Partial<Record<OrderStatus, OrderStatus>> = {
   [OrderStatus.Pending]: OrderStatus.Cooking,
   [OrderStatus.Cooking]: OrderStatus.Served,
   [OrderStatus.Served]: OrderStatus.Paid,
+  [OrderStatus.Scheduled]: OrderStatus.Pending,
 };
 
 const NEXT_LABEL: Partial<Record<OrderStatus, string>> = {
   [OrderStatus.Pending]: "Bắt đầu nấu",
   [OrderStatus.Cooking]: "Phục vụ",
   [OrderStatus.Served]: "Thanh toán",
+  [OrderStatus.Scheduled]: "Kích hoạt",
 };
 
 function formatElapsed(seconds: number): string {
@@ -105,6 +114,7 @@ const OrderCard = memo(function OrderCard({
   const next = NEXT_STATUS[order.status];
   const isCancelled = order.status === OrderStatus.Cancelled;
   const isPaid = order.status === OrderStatus.Paid;
+  const isScheduled = order.status === OrderStatus.Scheduled;
   const [updating, setUpdating] = useState<OrderStatus | null>(null);
 
   async function handleChange(toStatus: OrderStatus) {
@@ -162,11 +172,34 @@ const OrderCard = memo(function OrderCard({
             </span>
             {cfg.label}
           </span>
-          {!isPaid && (
+          {isScheduled && order.scheduleOrder?.scheduledAt ? (
+            <span className="text-[10px] text-purple-700 font-semibold flex items-center gap-0.5">
+              <span className="material-symbols-outlined" style={{ fontSize: 11, fontVariationSettings: "'FILL' 1" }}>event</span>
+              {new Date(order.scheduleOrder.scheduledAt).toLocaleString("vi-VN", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+            </span>
+          ) : !isPaid ? (
             <ElapsedBadge createdAt={order.createdAt} isActive={isActive} />
-          )}
+          ) : null}
         </div>
       </div>
+
+      {/* Scheduled customer info */}
+      {isScheduled && (order.scheduleOrder?.customerName ?? order.scheduleOrder?.customerPhone) && (
+        <div className="px-4 pb-2 flex gap-4">
+          {order.scheduleOrder?.customerName && (
+            <span className="text-xs text-purple-700 flex items-center gap-0.5">
+              <span className="material-symbols-outlined" style={{ fontSize: 13 }}>person</span>
+              {order.scheduleOrder.customerName}
+            </span>
+          )}
+          {order.scheduleOrder?.customerPhone && (
+            <span className="text-xs text-purple-700 flex items-center gap-0.5">
+              <span className="material-symbols-outlined" style={{ fontSize: 13 }}>phone</span>
+              {order.scheduleOrder.customerPhone}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Dishes */}
       <div className="px-4 pb-3 space-y-2">
@@ -238,7 +271,7 @@ const OrderCard = memo(function OrderCard({
     </div>
   );
 });
-const TABS = ["Tất cả", "Chờ xử lý", "Đang nấu", "Đã phục vụ"];
+const TABS = ["Tất cả", "Đặt trước", "Chờ xử lý", "Đang nấu", "Đã phục vụ"];
 
 export default function StaffOrdersPage() {
   const [orders, setOrders] = useState<IOrder[]>([]);
@@ -359,11 +392,12 @@ export default function StaffOrdersPage() {
     if (activeTab === "Chờ xử lý") return o.status === OrderStatus.Pending;
     if (activeTab === "Đang nấu") return o.status === OrderStatus.Cooking;
     if (activeTab === "Đã phục vụ") return o.status === OrderStatus.Served || o.status === OrderStatus.Paid;
+    if (activeTab === "Đặt trước") return o.status === OrderStatus.Scheduled;
     return true;
   });
 
   const ordering = orders.filter(
-    (o) => o.status === OrderStatus.Pending || o.status === OrderStatus.Cooking,
+    (o) => o.status === OrderStatus.Pending || o.status === OrderStatus.Cooking || o.status === OrderStatus.Scheduled,
   ).length;
   const serviced = orders.filter(
     (o) => o.status === OrderStatus.Served || o.status === OrderStatus.Paid,
@@ -374,6 +408,7 @@ export default function StaffOrdersPage() {
     "Chờ xử lý": orders.filter((o) => o.status === OrderStatus.Pending).length,
     "Đang nấu": orders.filter((o) => o.status === OrderStatus.Cooking).length,
     "Đã phục vụ": orders.filter((o) => o.status === OrderStatus.Served || o.status === OrderStatus.Paid).length,
+    "Đặt trước": orders.filter((o) => o.status === OrderStatus.Scheduled).length,
   };
 
   const targetPct = Math.min(Math.round((dailyRevenue / dailyTarget) * 100), 100);
@@ -383,16 +418,20 @@ export default function StaffOrdersPage() {
       {/* ── Top App Bar ── */}
       <header className="fixed top-0 w-full z-50 bg-stone-50/90 silk-blur shadow-sm shadow-red-900/5 safe-top">
         <div className="h-16 flex justify-between items-center px-4">
-        <div className="flex items-center gap-3">
-          <h1 className="font-headline text-xl font-bold italic text-primary">
-            Hủ Tiếu Ngọc Mai
-          </h1>
-        </div>
-        <div className="w-10 h-10 rounded-full bg-surface-container-high ring-2 ring-primary/10 flex items-center justify-center overflow-hidden">
-          <span className="material-symbols-outlined text-on-surface-variant">
-            person
-          </span>
-        </div>
+          <div className="flex items-center gap-3">
+            <h1 className="font-headline text-lg font-bold italic text-primary">
+              Hủ Tiếu Ngọc Mai
+            </h1>
+          </div>
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="max-w-max rounded-md lacquer-gradient text-on-primary shadow-xl shadow-primary/20 flex items-center justify-center active:scale-90 transition-transform z-40"
+            aria-label="Đơn mới"
+          >
+            <span className="text-sm px-2 py-1 font-bold">
+              + Tạo đơn mới
+              </span>
+          </button>
         </div>
       </header>
 
@@ -459,7 +498,7 @@ export default function StaffOrdersPage() {
               </span>
             </div>
             <div>
-              <p className="font-bold text-xs uppercase tracking-widest text-on-surface-variant">
+              <p className="font-bold text-[10px] uppercase tracking-widest text-on-surface-variant">
                 Đợi xử lý
               </p>
               <p className="text-2xl font-headline font-bold text-on-surface">
@@ -475,8 +514,8 @@ export default function StaffOrdersPage() {
               </span>
             </div>
             <div>
-              <p className="font-bold text-xs uppercase tracking-widest text-on-surface-variant">
-                Đơn hoàn tất
+              <p className="font-bold text-[10px] uppercase tracking-widest text-on-surface-variant">
+                Đã Hoàn tất
               </p>
               <p className="text-2xl font-headline font-bold text-on-surface">
                 {serviced}
@@ -539,21 +578,20 @@ export default function StaffOrdersPage() {
       </main>
 
       {/* ── FAB ── */}
-      <button
+      {/* <button
         onClick={() => setDrawerOpen(true)}
-        className="fixed right-6 bottom-28 w-14 h-14 rounded-full lacquer-gradient text-on-primary shadow-xl shadow-primary/20 flex items-center justify-center active:scale-90 transition-transform z-40"
+        className="fixed right-6 bottom-28 w-10 h-10 rounded-full lacquer-gradient text-on-primary shadow-xl shadow-primary/20 flex items-center justify-center active:scale-90 transition-transform z-40"
         aria-label="Đơn mới"
       >
         <span className="material-symbols-outlined text-3xl">add</span>
-      </button>
+      </button> */}
 
       {/* ── Take Order Drawer ── */}
-      {drawerOpen && (
-        <TakeOrderDrawer
-          onClose={() => setDrawerOpen(false)}
-          onOrderCreated={fetchOrders}
-        />
-      )}
+      <TakeOrderDrawer
+        onClose={() => setDrawerOpen(false)}
+        onOrderCreated={fetchOrders}
+        isOpen={drawerOpen}
+      />
     </>
   );
 }

@@ -28,7 +28,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGZSiSgYIQAljXDGXDQ6_gc732CpTCcuzVbuMHZtM3b0h-BJlKd73uJcxX0eMskJkDLUXJrZX7dC07OEQ2NblCzqUhxR3Vhit3JZ21w7UGSohV5aHP2Pd16qjBpVeYCtU-zWt4iwYuKw0MNdriUNTqrfHkMRA5LQh0kiYUByOfyy5OiT8olLyKAiY7feGhH3bbKGpANI5DSazmrPYmVVI0_J2F4n99w26ml1v_hv3IIrdLfx7ppHabPEkpNH632eJVhPSpgHBltbdA')] bg-cover bg-center mix-blend-overlay opacity-30" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
             <span className="text-secondary-fixed-dim font-label uppercase tracking-[0.2em] text-xs mb-4">
-              Bến Tre Từ Năm 1954
+              Bến Tre Từ Năm 2015
             </span>
             <h2 className="font-headline text-5xl text-on-primary font-bold tracking-tight mb-6 leading-tight">
               Giữ Gìn
@@ -213,7 +213,7 @@ export default function HomePage() {
               </div>
               <div className="bg-secondary p-8 rounded-2xl shadow-sm text-center text-on-secondary col-span-2">
                 <p className="text-xl font-headline font-bold mb-2">
-                  Thành lập 1954
+                  Kinh doanh từ 2015
                 </p>
                 <p className="text-[10px] font-bold uppercase tracking-widest opacity-80">
                   Nhiều thế hệ gìn giữ

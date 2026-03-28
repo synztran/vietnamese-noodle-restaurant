@@ -159,12 +159,21 @@ export async function createOrder(
 		createdBy: input.createdBy ?? userId,
 		dishes,
 		totalAmount,
-		status: OrderStatus.Pending,
+		status: input.scheduleOrder
+			? OrderStatus.Scheduled
+			: OrderStatus.Pending,
 		createdAt: now,
 		updatedAt: now,
 		fees: {
 			holidayServiceFee: holidayFeeAmount,
 		},
+		...(input.scheduleOrder && {
+			scheduleOrder: {
+				scheduledAt: new Date(input.scheduleOrder.scheduledAt),
+				customerName: input.scheduleOrder.customerName,
+				customerPhone: input.scheduleOrder.customerPhone,
+			},
+		}),
 	});
 
 	return docToOrder(doc.toObject() as unknown as Record<string, unknown>);

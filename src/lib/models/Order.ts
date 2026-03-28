@@ -4,6 +4,15 @@ import type { IOrder, IDish } from "@/lib/types";
 
 export interface IOrderDocument extends Omit<IOrder, "_id">, Document {}
 
+const ScheduleOrderSchema = new Schema(
+	{
+		scheduledAt: { type: Date, required: true },
+		customerName: { type: String },
+		customerPhone: { type: String },
+	},
+	{ _id: false },
+);
+
 const DishSchema = new Schema<IDish>(
 	{
 		noodleTypes: [
@@ -32,9 +41,10 @@ const OrderSchema = new Schema<IOrderDocument>(
 		},
 		createdAt: { type: Date, default: () => new Date() },
 		updatedAt: { type: Date, default: () => new Date() },
-    fees: {
-      holidayServiceFee: { type: Number, default: 0 },
-    }
+		fees: {
+			holidayServiceFee: { type: Number, default: 0 },
+		},
+		scheduleOrder: { type: ScheduleOrderSchema, required: false },
 	},
 	{ timestamps: false, versionKey: false },
 );

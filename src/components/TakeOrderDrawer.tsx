@@ -34,6 +34,7 @@ interface Props {
   onClose: () => void;
   onOrderCreated: () => void;
   tableNumber?: string;
+  isOpen?: boolean; // Optional prop to control drawer visibility
 }
 
 let _localCounter = 0;
@@ -48,7 +49,8 @@ function generateTableNum(): string {
   return `T-${dd}${MM}${YY}-${HH}${mm}`;
 }
 
-export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }: Props) {
+export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber, isOpen }: Props) {
+  console.log(isOpen)
   const [selectedNoodles, setSelectedNoodles] = useState<NoodleType[]>([]);
   const [selectedToppingIds, setSelectedToppingIds] = useState<string[]>([]);
   const [note, setNote] = useState("");
@@ -56,6 +58,15 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
   const [submitting, setSubmitting] = useState(false);
   const [tableNum, setTableNum] = useState(() => tableNumber ?? generateTableNum());
   const [liveSettings, setLiveSettings] = useState<ISettings | null>(null);
+  const [isScheduled, setIsScheduled] = useState(false);
+  const [scheduledAt, setScheduledAt] = useState(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    d.setHours(14, 0, 0, 0);
+    return d.toISOString().slice(0, 16);
+  });
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
   const drawerRef = useRef<HTMLDivElement>(null);
 
   // Fetch settings once on mount for live prices
@@ -78,6 +89,7 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
   // Lock body scroll and prevent pull-to-refresh while drawer is open,
   // but allow normal touch-scrolling inside the drawer panel itself.
   useEffect(() => {
+    if (!isOpen) return;
     const prevOverflow = document.body.style.overflow;
     const prevOverscroll = document.body.style.overscrollBehavior;
     document.body.style.overflow = "hidden";
@@ -94,7 +106,7 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
       document.body.style.overscrollBehavior = prevOverscroll;
       document.documentElement.removeEventListener("touchmove", blockTouchMove);
     };
-  }, []);
+  }, [isOpen]);
 
   function toggleNoodle(nt: NoodleType) {
     setSelectedNoodles((prev) =>
@@ -160,6 +172,13 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
           toppings: d.toppings,
           customerNote: d.customerNote,
         })),
+        ...(isScheduled && scheduledAt && {
+          scheduleOrder: {
+            scheduledAt: new Date(scheduledAt).toISOString(),
+            customerName: customerName.trim() || undefined,
+            customerPhone: customerPhone.trim() || undefined,
+          },
+        }),
       };
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -167,6 +186,21 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
         body: JSON.stringify(body),
       });
       if (res.ok) {
+        // Reset all order state
+        setCart([]);
+        setSelectedNoodles([]);
+        setSelectedToppingIds([]);
+        setNote("");
+        setTableNum(tableNumber ?? generateTableNum());
+        setIsScheduled(false);
+        setScheduledAt(() => {
+          const d = new Date();
+          d.setDate(d.getDate() + 1);
+          d.setHours(14, 0, 0, 0);
+          return d.toISOString().slice(0, 16);
+        });
+        setCustomerName("");
+        setCustomerPhone("");
         onOrderCreated();
         onClose();
       }
@@ -181,7 +215,7 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
   );
 
   return (
-    <div ref={drawerRef} className="fixed bottom-0 left-0 w-full bg-surface-container-lowest rounded-t-[2.5rem] shadow-[0_-20px_60px_rgba(0,0,0,0.15)] max-h-[80vh] overflow-y-auto overscroll-none no-scrollbar flex flex-col z-[60]">
+    <div ref={drawerRef} className={`fixed bottom-0 left-0 w-full bg-surface-container-lowest rounded-t-[2.5rem] shadow-[0_-20px_60px_rgba(0,0,0,0.15)] max-h-max overflow-y-auto no-scrollbar flex flex-col z-[60] transition-all duration-500 ${isOpen ? "top-[5vh]" : "top-[100vh]"}`}>
 
         {/* Handle & Header */}
         <div className="sticky top-0 bg-surface-container-lowest z-10 px-6 pt-5 pb-3">
@@ -191,11 +225,21 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
               <p className="font-label text-[10px] uppercase tracking-widest text-secondary font-medium">
                 Gọi món
               </p>
-              <h2 className="font-headline text-xl text-primary">Tạo Tô Mới</h2>
+              <h2 className="font-headline text-xl text-primary">Tạo Đơn</h2>
             </div>
-            <button onClick={onClose} className="btn btn-sm btn-circle btn-ghost">
-              <span className="material-symbols-outlined text-on-surface-variant">close</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsScheduled((v) => !v)}
+                className={`btn btn-sm gap-1 rounded-full px-3 ${isScheduled ? "bg-purple-100 text-purple-700 border border-purple-300 hover:bg-purple-200" : "btn-ghost text-on-surface-variant"}`}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 15, fontVariationSettings: isScheduled ? "'FILL' 1" : "'FILL' 0" }}>schedule</span>
+                <span className="text-xs font-medium">Đặt trước</span>
+              </button>
+              <button onClick={onClose} className="btn btn-sm btn-circle btn-ghost">
+                <span className="material-symbols-outlined text-on-surface-variant">close</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -214,6 +258,46 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
             />
             <p className="fieldset-label">Để trống nếu mang về</p>
           </fieldset>
+
+          {/* ── Đặt trước ── */}
+          {isScheduled && (
+            <div className="bg-purple-50/60 border border-purple-200/80 rounded-2xl p-4 space-y-3">
+              <p className="font-label text-xs font-semibold text-purple-700 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="material-symbols-outlined" style={{ fontSize: 14, fontVariationSettings: "'FILL' 1" }}>schedule</span>
+                Thông tin đặt trước
+              </p>
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend text-on-surface-variant">Thời gian hẹn</legend>
+                <input
+                  type="datetime-local"
+                  value={scheduledAt}
+                  onChange={(e) => setScheduledAt(e.target.value)}
+                  min={new Date().toISOString().slice(0, 16)}
+                  className="input input-bordered w-full focus:outline-primary text-base"
+                />
+              </fieldset>
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend text-on-surface-variant">Tên khách hàng</legend>
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="VD: Nguyễn Văn A"
+                  className="input input-bordered w-full focus:outline-primary text-base"
+                />
+              </fieldset>
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend text-on-surface-variant">Số điện thoại</legend>
+                <input
+                  type="tel"
+                  value={customerPhone}
+                  onChange={(e) => setCustomerPhone(e.target.value)}
+                  placeholder="VD: 0912 345 678"
+                  className="input input-bordered w-full focus:outline-primary text-base"
+                />
+              </fieldset>
+            </div>
+          )}
 
           {/* ── Loại sợi ── */}
           <div>
@@ -395,14 +479,14 @@ export default function TakeOrderDrawer({ onClose, onOrderCreated, tableNumber }
                 type="button"
                 onClick={confirmOrder}
                 disabled={submitting}
-                className="btn btn-block lacquer-gradient text-on-primary border-0 hover:opacity-90 disabled:opacity-60"
+                className={`btn btn-block border-0 hover:opacity-90 disabled:opacity-60 ${isScheduled ? "bg-purple-600 text-white hover:bg-purple-700" : "lacquer-gradient text-on-primary"}`}
               >
                 {submitting ? (
                   <span className="loading loading-spinner loading-sm" />
                 ) : (
                   <>
-                    <span className="material-symbols-outlined text-sm">send</span>
-                    Gửi vào bếp
+                    <span className="material-symbols-outlined text-sm">{isScheduled ? "bookmark_added" : "send"}</span>
+                    {isScheduled ? "Lưu Đặt Trước" : "Gửi vào bếp"}
                   </>
                 )}
               </button>

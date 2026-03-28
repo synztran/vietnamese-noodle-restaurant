@@ -309,83 +309,73 @@ export default function StaffSettingsPage() {
         </section>
 
         {/* ── Main dish prices ── */}
-        <details className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm" open>
-          <summary className="px-4 py-3 border-b border-surface-container flex items-center justify-between gap-2 cursor-pointer list-none select-none">
-            <div className="flex items-center gap-2">
-              <span
-                className="material-symbols-outlined text-primary"
-                style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}
-              >
-                ramen_dining
-              </span>
-              <span className="font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant">
-                Giá món chính
-              </span>
-            </div>
+        <div className="collapse collapse-arrow bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+          <input type="checkbox" defaultChecked />
+          <div className="collapse-title px-4 py-3 border-b border-surface-container flex items-center gap-2 !pr-12">
             <span
-              className="material-symbols-outlined text-on-surface-variant transition-transform duration-200 group-open:rotate-180"
-              style={{ fontSize: 18 }}
+              className="material-symbols-outlined text-primary"
+              style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}
             >
-              expand_more
+              ramen_dining
             </span>
-          </summary>
-          <div className="px-4 py-4 space-y-3">
-            <p className="text-xs text-on-surface-variant italic mb-1">
-              Giá cơ bản mỗi loại sợi. Ghép nhiều sợi sẽ cộng dồn.
-            </p>
-            {Object.values(NoodleType).map((nt) => (
-              <div key={nt} className="flex items-center justify-between gap-3">
-                <p className="text-sm font-medium text-on-surface">{NOODLE_LABELS[nt]}</p>
-                <PriceInput
-                  value={noodlePrices[nt] ?? 0}
-                  onChange={(v) => setNoodlePrices((p) => ({ ...p, [nt]: v }))}
-                />
-              </div>
-            ))}
+            <span className="font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+              Giá món chính
+            </span>
           </div>
-        </details>
+          <div className="collapse-content !px-0 !pb-0">
+            <div className="px-4 py-4 space-y-3">
+              <p className="text-xs text-on-surface-variant italic mb-1">
+                Giá cơ bản mỗi loại sợi. Ghép nhiều sợi sẽ cộng dồn.
+              </p>
+              {Object.values(NoodleType).map((nt) => (
+                <div key={nt} className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-medium text-on-surface">{NOODLE_LABELS[nt]}</p>
+                  <PriceInput
+                    value={noodlePrices[nt] ?? 0}
+                    onChange={(v) => setNoodlePrices((p) => ({ ...p, [nt]: v }))}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* ── Topping prices by category ── */}
         {Object.values(ToppingCategory).map((cat) => {
           const toppings = MENU_TOPPINGS.filter((t) => t.category === cat);
           return (
-            <details
+            <div
               key={cat}
-              className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm"
+              className="collapse collapse-arrow bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm"
             >
-              <summary className="px-4 py-3 border-b border-surface-container flex items-center justify-between gap-2 cursor-pointer list-none select-none">
-                <div className="flex items-center gap-2">
-                  <span
-                    className="material-symbols-outlined text-secondary"
-                    style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}
-                  >
-                    add_circle
-                  </span>
-                  <span className="font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant">
-                    Topping – {CATEGORY_LABELS[cat]}
-                  </span>
-                </div>
+              <input type="checkbox" />
+              <div className="collapse-title px-4 py-3 border-b border-surface-container flex items-center gap-2 !pr-12">
                 <span
-                  className="material-symbols-outlined text-on-surface-variant transition-transform duration-200 group-open:rotate-180"
-                  style={{ fontSize: 18 }}
+                  className="material-symbols-outlined text-secondary"
+                  style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}
                 >
-                  expand_more
+                  add_circle
                 </span>
-              </summary>
-              <div className="px-4 py-4 space-y-3">
-                {toppings.map((t) => (
-                  <div key={t.id} className="flex items-center justify-between gap-3">
-                    <p className="text-sm font-medium text-on-surface">{t.name}</p>
-                    <PriceInput
-                      value={toppingPrices[t.id] ?? 0}
-                      onChange={(v) =>
-                        setToppingPrices((p) => ({ ...p, [t.id]: v }))
-                      }
-                    />
-                  </div>
-                ))}
+                <span className="font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+                  Topping – {CATEGORY_LABELS[cat]}
+                </span>
               </div>
-            </details>
+              <div className="collapse-content !px-0 !pb-0">
+                <div className="px-4 py-4 space-y-3">
+                  {toppings.map((t) => (
+                    <div key={t.id} className="flex items-center justify-between gap-3">
+                      <p className="text-sm font-medium text-on-surface">{t.name}</p>
+                      <PriceInput
+                        value={toppingPrices[t.id] ?? 0}
+                        onChange={(v) =>
+                          setToppingPrices((p) => ({ ...p, [t.id]: v }))
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           );
         })}
 

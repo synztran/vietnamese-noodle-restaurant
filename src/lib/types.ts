@@ -38,6 +38,7 @@ export enum OrderStatus {
 	Served = "Đã phục vụ",
 	Paid = "Đã thanh toán",
 	Cancelled = "Đã hủy",
+	Scheduled = "Đặt trước",
 }
 
 // --- CORE DATA STRUCTURES ---
@@ -80,9 +81,14 @@ export interface IOrder {
 	status: OrderStatus;
 	createdAt: Date;
 	updatedAt: Date;
-  fees?: {
-    holidayServiceFee?: number; // Calculated at order creation based on settings, added to totalAmount
-  }
+	fees?: {
+		holidayServiceFee?: number; // Calculated at order creation based on settings, added to totalAmount
+	};
+	scheduleOrder?: {
+		scheduledAt: Date;
+		customerName?: string;
+		customerPhone?: string;
+	};
 }
 
 // --- SETTINGS ---
@@ -119,6 +125,11 @@ export type CreateOrderInput = {
 		toppings: string[]; // ITopping IDs
 		customerNote?: string;
 	}>;
+	scheduleOrder?: {
+		scheduledAt: string; // ISO string from client
+		customerName?: string;
+		customerPhone?: string;
+	};
 };
 
 export type UpdateOrderInput = {
@@ -211,13 +222,13 @@ export const MENU_TOPPINGS: ITopping[] = [
 		price: 0,
 		isAvailable: true,
 	},
-	{
-		id: "hoanh-thanh",
-		name: "Hoành thánh",
-		category: ToppingCategory.Pork,
-		price: 0,
-		isAvailable: true,
-	},
+	// {
+	// 	id: "hoanh-thanh",
+	// 	name: "Hoành thánh",
+	// 	category: ToppingCategory.Pork,
+	// 	price: 0,
+	// 	isAvailable: true,
+	// },
 
 	// Hải sản
 	{
@@ -235,52 +246,66 @@ export const MENU_TOPPINGS: ITopping[] = [
 		isAvailable: true,
 	},
 	{
-		id: "cua",
-		name: "Cua",
+		id: "hai-san",
+		name: "Hải sản",
 		category: ToppingCategory.Seafood,
 		price: 0,
 		isAvailable: true,
 	},
-	{
-		id: "ca-vien",
-		name: "Cá viên",
-		category: ToppingCategory.Seafood,
-		price: 0,
-		isAvailable: true,
-	},
+	// {
+	// 	id: "cua",
+	// 	name: "Cua",
+	// 	category: ToppingCategory.Seafood,
+	// 	price: 0,
+	// 	isAvailable: true,
+	// },
+	// {
+	// 	id: "ca-vien",
+	// 	name: "Cá viên",
+	// 	category: ToppingCategory.Seafood,
+	// 	price: 0,
+	// 	isAvailable: true,
+	// },
 
 	// Món kèm
 	{
-		id: "trung-ga",
-		name: "Trứng gà",
+		id: "trung-cut",
+		name: "Trứng cút",
 		category: ToppingCategory.Side,
 		price: 0,
 		isAvailable: true,
 	},
-	{
-		id: "rau-them",
-		name: "Rau thêm",
-		category: ToppingCategory.Side,
-		price: 0,
-		isAvailable: true,
-	},
-	{
-		id: "gia-them",
-		name: "Giá thêm",
-		category: ToppingCategory.Side,
-		price: 0,
-		isAvailable: true,
-	},
-	{
-		id: "chanh",
-		name: "Chanh",
-		category: ToppingCategory.Side,
-		price: 0,
-		isAvailable: true,
-	},
+	// {
+	// 	id: "rau-them",
+	// 	name: "Rau thêm",
+	// 	category: ToppingCategory.Side,
+	// 	price: 0,
+	// 	isAvailable: true,
+	// },
+	// {
+	// 	id: "gia-them",
+	// 	name: "Giá thêm",
+	// 	category: ToppingCategory.Side,
+	// 	price: 0,
+	// 	isAvailable: true,
+	// },
+	// {
+	// 	id: "chanh",
+	// 	name: "Chanh",
+	// 	category: ToppingCategory.Side,
+	// 	price: 0,
+	// 	isAvailable: true,
+	// },
 	{
 		id: "thap-cam",
 		name: "Thập cẩm",
+		category: ToppingCategory.Special,
+		price: 0,
+		isAvailable: true,
+	},
+	{
+		id: "hoanh-thanh",
+		name: "Hoành thánh",
 		category: ToppingCategory.Special,
 		price: 0,
 		isAvailable: true,

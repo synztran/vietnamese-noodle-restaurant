@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Hủ Tiếu Ngọc Mai — Ben Tre Since 1954",
-  description: "Hủ Tiếu Ngọc Mai — Ben Tre Since 1954.",
+  title: "Hủ Tiếu Ngọc Mai — Ben Tre Since 2015",
+  description: "Hủ Tiếu Ngọc Mai — Ben Tre Since 2015.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
