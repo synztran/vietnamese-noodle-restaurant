@@ -78,12 +78,12 @@ function formatElapsed(seconds: number): string {
 // Isolated leaf — only this tiny component re-renders every second
 function ElapsedBadge({ createdAt, isActive }: { createdAt: string | Date; isActive: boolean }) {
   const [elapsedSeconds, setElapsedSeconds] = useState(() =>
-    Math.floor((Date.now() - new Date(createdAt).getTime()) / 1000)
+    Math.max(0, Math.floor((Date.now() - new Date(createdAt).getTime()) / 1000))
   );
   useEffect(() => {
     if (!isActive) return;
     const tick = setInterval(() => {
-      setElapsedSeconds(Math.floor((Date.now() - new Date(createdAt).getTime()) / 1000));
+      setElapsedSeconds(Math.max(0, Math.floor((Date.now() - new Date(createdAt).getTime()) / 1000)));
     }, 1_000);
     return () => clearInterval(tick);
   }, [isActive, createdAt]);
