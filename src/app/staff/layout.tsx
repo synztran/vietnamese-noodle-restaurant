@@ -1,4 +1,5 @@
 import StaffBottomNav from "@/components/StaffBottomNav";
+import StaffSideNav from "@/components/StaffSideNav";
 
 export default function StaffLayout({
   children,
@@ -7,7 +8,10 @@ export default function StaffLayout({
 }) {
   return (
     <div className="min-h-screen bg-surface">
-      {children}
+      <StaffSideNav />
+      <div className="md:pl-52">
+        {children}
+      </div>
       <StaffBottomNav />
     </div>
   );

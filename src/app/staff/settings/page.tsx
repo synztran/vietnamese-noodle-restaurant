@@ -182,7 +182,7 @@ export default function StaffSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface pb-32">
+    <div className="min-h-screen bg-surface pb-32 md:pb-10">
       {/* ── Sticky header ── */}
       <div className="sticky top-0 z-40 bg-surface/95 silk-blur border-b border-surface-container safe-top">
         <div className="h-14 flex items-center justify-between px-5 max-w-2xl mx-auto">

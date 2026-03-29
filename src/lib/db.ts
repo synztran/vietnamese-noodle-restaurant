@@ -212,8 +212,11 @@ export async function getDailyRevenue(): Promise<number> {
 	const result = await OrderModel.aggregate([
 		{
 			$match: {
-				status: OrderStatus.Paid,
-				createdAt: { $gte: start, $lte: end },
+				status: { $in: [OrderStatus.Paid, OrderStatus.Scheduled] },
+				$or: [
+					{ createdAt: { $gte: start, $lte: end } },
+					{ "scheduleOrder.scheduledAt": { $gte: start, $lte: end } },
+				],
 			},
 		},
 		{

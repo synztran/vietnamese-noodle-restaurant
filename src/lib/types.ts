@@ -181,13 +181,6 @@ export const MENU_TOPPINGS: ITopping[] = [
 		price: 0,
 		isAvailable: true,
 	},
-	{
-		id: "trung-cut",
-		name: "Trứng cút",
-		category: ToppingCategory.Chicken,
-		price: 0,
-		isAvailable: true,
-	},
 
 	// Heo
 	{

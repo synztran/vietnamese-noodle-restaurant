@@ -72,7 +72,7 @@ export default function StaffHistoryPage() {
         <div className="bg-surface-dim h-[1px] w-full opacity-20" />
       </header>
 
-      <main className="pb-32 px-4 pt-4 max-w-2xl mx-auto space-y-6">
+      <main className="pb-32 md:pb-10 px-4 pt-4 max-w-2xl mx-auto space-y-6">
         {/* ── Date Range Filter ── */}
         <section>
           <div className="bg-surface-container-low p-4 rounded-full border-b-2 border-primary/20 flex items-center justify-between shadow-sm">
@@ -224,8 +224,16 @@ export default function StaffHistoryPage() {
                       <p className="text-[10px] font-label text-on-surface-variant uppercase mb-1">
                         {order.dishes.length} tô
                       </p>
-                      <p className="font-headline font-bold text-secondary">
-                        {order.totalAmount.toLocaleString()} VND
+                      {order.realPaidPrice != null && order.realPaidPrice !== order.totalAmount && (
+                        <p className="text-[10px] font-label text-on-surface-variant line-through tabular-nums">
+                          {order.totalAmount.toLocaleString()} VND
+                        </p>
+                      )}
+                      <p className={`font-headline font-bold tabular-nums ${order.realPaidPrice != null ? "text-emerald-700" : "text-secondary"}`}>
+                        {(order.realPaidPrice ?? order.totalAmount).toLocaleString()} VND
+                        {/* {order.realPaidPrice != null && (
+                          <span className="ml-1 text-[9px] font-label font-normal text-emerald-600 uppercase tracking-wide">thực thu</span>
+                        )} */}
                       </p>
                     </div>
                   </div>

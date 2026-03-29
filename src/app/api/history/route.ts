@@ -22,7 +22,10 @@ export async function GET(request: NextRequest) {
 
 	const orders = await getOrderHistory(from, to);
 	const total = orders.length;
-	const revenue = orders.reduce((sum, o) => sum + o.totalAmount, 0);
+	const revenue = orders.reduce(
+		(sum, o) => sum + (o.realPaidPrice ?? o.totalAmount),
+		0,
+	);
 
 	return NextResponse.json({ orders, total, revenue });
 }
