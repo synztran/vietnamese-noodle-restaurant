@@ -338,9 +338,9 @@ export default function HomePage() {
                     </p>
                     <div className="grid grid-cols-2 gap-x-8 text-sm text-stone-400">
                       <span>Thứ 2 – Thứ 6</span>
-                      <span>07:00 – 12:00</span>
+                      <span>06:00 – 12:00</span>
                       <span>Thứ 7 – Chủ nhật</span>
-                      <span>07:30 – 11:30</span>
+                      <span>06:00 – 11:00</span>
                     </div>
                   </div>
                 </div>
